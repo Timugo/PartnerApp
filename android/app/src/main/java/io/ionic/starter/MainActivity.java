@@ -1,4 +1,4 @@
-package com.timugo.partner;
+package com.timugo.petsPartner;
 
 import android.os.Bundle;
 
