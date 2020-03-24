@@ -1,9 +1,11 @@
 apply plugin: 'com.android.application'
+//Firebase Implementation
+apply plugin: 'com.google.gms.google-services'
 //Changes from compileSdkVersion 28 to compileSdkVersion rootProject.ext.compileSdkVersion etc
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.timugo.partner"
+        applicationId "com.timugo.petsPartner"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -28,6 +30,8 @@ repositories {
 }
 //Changes from recomended changes https://capacitor.ionicframework.com/docs/android/updating/#from-1-5-1-to-2-0-0-beta-0
 dependencies {
+    //firebase 'com.google.firebase:firebase-analytics:17.2.2' works
+    implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation project(':capacitor-android')

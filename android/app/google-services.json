@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "773831899405",
+    "firebase_url": "https://petspartner-8cdde.firebaseio.com",
+    "project_id": "petspartner-8cdde",
+    "storage_bucket": "petspartner-8cdde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773831899405:android:8d29abc81ee1bc11dd5844",
+        "android_client_info": {
+          "package_name": "com.timugo.petsPartner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773831899405-7ft4s0o1225is2usec4riplo5jaud242.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbB01-QLpD4tMql7oUksvre08euRhzvo0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773831899405-7ft4s0o1225is2usec4riplo5jaud242.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
