@@ -1,5 +1,5 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,IonButton, IonToast,IonSlides, IonSlide, IonImg, IonItem, IonLabel, IonFooter, IonGrid, IonRow, IonCol,} from '@ionic/react';
-import React, { useState } from 'react';
+import { IonContent, IonPage,IonButton,IonSlides, IonSlide,IonFooter, IonGrid, IonRow, IonCol,} from '@ionic/react';
+import React from 'react';
 //import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
 
@@ -27,33 +27,31 @@ const Home: React.FC = () => {
   
   return (
     <IonPage id="homePage">
-      {/* <IonHeader>
-        <IonToolbar>
-          <IonTitle>Timugo Partners</IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
       <IonContent fullscreen>
         
         <IonSlides pager={true} >
           <IonSlide>
-            <IonImg  className="slide-image" src="assets/img/2.jpg"/>
-              
-            <h2 className="slide-title">
-              Bienvenido a <b>TimuAliados</b>
-            </h2>
+            <div className="slide-img-padding">
+              <img  className="slide-image" src="assets/img/slide1.jpg" alt=""/>
+            </div>
+            <div>
+              <h3 className="slide-title">
+                Bienvenido a <b>TimuAliados</b>
+              </h3>
+            </div>
             <p>
               La app de <b>Timugo Aliados</b> te permite gestionar y potenciar las ventas de tu negocio de una manera <b>rapida, facil y segura</b>
             </p>
           </IonSlide>
           <IonSlide>
-            <IonImg className="slide-image" src="assets/img/1.jpg"/>
+            <img className="slide-image" src="assets/img/1.jpg" alt=""/>
             <h2>Por que Elegirnos?</h2>
             <p>
               <b>Lorem Ispum</b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
             </p>
           </IonSlide>
           <IonSlide>
-            <IonImg className="slide-image" src="assets/img/3.png"/>
+            <img className="slide-image" src="assets/img/3.png" alt=""/>
             <h2 >Lorem Ipsum</h2>
             <p>
               <b>Ionic Appflow</b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
@@ -73,12 +71,10 @@ const Home: React.FC = () => {
       <IonFooter>
         <IonGrid>
           <IonRow>
-            <IonCol>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButton expand="block" color="primary">Quiero ser TimuAliado</IonButton>
+            <IonCol size="10" offset="1">
+              <IonButton className="btn-primary" expand="full" shape="round"  color="primary" href="https://wa.me/573162452663?text=Hola%2C%20me%20gustaria%20ser%20Aliado%20de%20la%20app%20timugo">
+                Quiero ser TimuAliado
+              </IonButton>
             </IonCol>
           </IonRow>
           <IonRow>
