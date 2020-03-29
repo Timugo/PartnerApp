@@ -1,73 +1,59 @@
 import { IonContent, IonPage,IonButton,IonSlides, IonSlide,IonFooter, IonGrid, IonRow, IonCol,} from '@ionic/react';
 import React from 'react';
 //import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+import './Home.scss';
 
 const Home: React.FC = () => {
   
   // Optional parameters to pass to the swiper instance. See http://idangero.us/swiper/api/ for valid options.
   const slideOpts = {
-    initialSlide: 1,
-    speed: 400
+    speed: 1000
   };
-  let slides = [
-    {
-      img: 'assets/img/img1.svg',
-      title : "Primer <br> slider"
-    },
-    {
-      img: 'assets/img/img2.svg',
-      title : "Segundo <br> slider"
-    },
-    {
-      img: 'assets/img/img3.svg',
-      title : "tercer <br> slider"
-    }
-  ]
-  
   return (
     <IonPage id="homePage">
-      <IonContent fullscreen>
+      <IonContent>
         
-        <IonSlides pager={true} >
+        <IonSlides pager={true} options={slideOpts}>
           <IonSlide>
-            <div className="slide-img-padding">
-              <img  className="slide-image" src="assets/img/slide1.jpg" alt=""/>
+            <div >
+              <img src="assets/img/slide1.svg" alt=""/>
             </div>
-            <div>
-              <h3 className="slide-title">
+            <div className="title">
+              <h3>
                 Bienvenido a <b>TimuAliados</b>
               </h3>
             </div>
             <p>
-              La app de <b>Timugo Aliados</b> te permite gestionar y potenciar las ventas de tu negocio de una manera <b>rapida, facil y segura</b>
+              <b>Nuestra App</b> te permite gestionar y potenciar las ventas de tu negocio pet de una manera <b>rapida, facil y segura</b>
             </p>
           </IonSlide>
+
           <IonSlide>
-            <img className="slide-image" src="assets/img/1.jpg" alt=""/>
-            <h2>Por que Elegirnos?</h2>
+            <div >
+              <img src="assets/img/slide2.svg" alt=""/>
+            </div>
+            <div className="title">
+              <h3>Por que <b>Elegirnos</b></h3>
+            </div>
             <p>
-              <b>Lorem Ispum</b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+             Aun usando <b>Whatsapp</b> para gestionar <br></br> tus pedidos?. Los <b>TimuAliados</b> gestionan los <b>chats y pedidos</b> con sus clientes directamente en nuestra app 
             </p>
           </IonSlide>
+
           <IonSlide>
-            <img className="slide-image" src="assets/img/3.png" alt=""/>
-            <h2 >Lorem Ipsum</h2>
+            <div>
+              <img src="assets/img/wallet.svg" alt=""/>
+            </div>
+            <div className="title">
+              <h3>Gana <b>Dinero</b></h3>
+            </div>
             <p>
-              <b>Ionic Appflow</b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+              Recibe las <b>Ganancias</b> de todos tus productos, directamente en tu <b>cuenta de ahorros </b>. Que esperas para unirte al mundo  <b>PET?</b>
             </p>
           </IonSlide>
         </IonSlides>
-        {/* <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Timugo Partners</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-      
-        <ExploreContainer />
-      /> */}
-      
       </IonContent>
+
       <IonFooter>
         <IonGrid>
           <IonRow>
