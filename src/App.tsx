@@ -3,10 +3,9 @@ import { Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 //Pages or components
-import Slides from './pages/Slides';
-
+import Slides from './pages/Login/Slides';
 import HomeOrTutorial from './components/HomeOrTutorial';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import SideMenu from './components/SideMenu';
 
 
