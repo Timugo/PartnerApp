@@ -6,6 +6,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import Slides from './pages/Login/Slides';
 import HomeOrTutorial from './components/HomeOrTutorial';
 import Login from './pages/Login/Login';
+import Login2 from './pages/Login/Login2'
 import SideMenu from './components/SideMenu';
 
 
@@ -41,6 +42,7 @@ const App: React.FC = () => (
         <Route path="/slides" component={Slides} exact={true} />
         {/* Principal Page with tabs */}
         <Route path="/login" component={Login} exact={true} />
+        <Route path="/login2" component={Login2} exact={true} />
         {/*If User is logged then, redirect to home, if not redirect to slides tutorial*/  }
         <Route exact path="/" component={HomeOrTutorial}/>
         {/* <Route exact path="/" render={() => <Redirect to="/home" />} /> */}

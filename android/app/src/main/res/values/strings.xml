@@ -4,4 +4,7 @@
     <string name="title_activity_main">TimuAliado</string>
     <string name="package_name">com.timugo.partner</string>
     <string name="custom_url_scheme">com.timugo.partner</string>
+    <!-- Facebook login plugin https://github.com/rdlabo/capacitor-facebook-login -->
+    <string name="facebook_app_id">2625184964387566</string>
+    <string name="fb_login_protocol_scheme">fb2625184964387566</string>
 </resources>
