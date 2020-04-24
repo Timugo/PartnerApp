@@ -11,7 +11,7 @@ import {
     IonLabel,
     IonText
 } from '@ionic/react';
-import { chevronBackOutline,arrowForwardOutline, codeWorking} from 'ionicons/icons';
+import { chevronBackOutline,arrowForwardOutline} from 'ionicons/icons';
 import React, { useState } from 'react';
 //import ExploreContainer from '../components/ExploreContainer';
 import './Login.scss';
@@ -24,14 +24,19 @@ import { LocalStorageService } from "../../services/localData-service";
 //Interface
 import { User } from "../../interfaces/user.interface";
 import { LoginResponse } from "../../interfaces/responses.interface";
-const { Browser } = Plugins;
+/* Facebook PLugin login */
+import { FacebookLoginResponse } from '@rdlabo/capacitor-facebook-login';
+const { FacebookLogin,Browser } = Plugins;
 
 const Login: React.FC = () => {
     const [user, setUser] = useState<string>("");
-	const [password, setPassword] = useState<string>("");
-	
+		const [password, setPassword] = useState<string>("");
+
     async function register(){
         await Browser.open({ url: 'https://wa.me/573162452663?text=Hola%2C%20me%20gustaria%20recuperar%20mi%20contrasena%20' });
+		}
+		async function signIn(): Promise<void> {
+			
 		}
 		const handleSubmit =() =>{
 			let loginService  = new LoginServices();
@@ -53,6 +58,8 @@ const Login: React.FC = () => {
 			// 	console.log(res);
 			// });
 		}
+		
+
     return (
 			<IonPage>
 			{/* <IonHeader className="ion-no-border">
@@ -216,7 +223,10 @@ const Login: React.FC = () => {
       					</IonCol>
       				</IonRow>
       			</IonGrid>
-
+						
+						<IonButton className="login-button" onClick={() => signIn()} expand="full" fill="solid" color="primary">
+            	Login with Facebook
+       			</IonButton>
       		</div>
   
       	</IonContent>
