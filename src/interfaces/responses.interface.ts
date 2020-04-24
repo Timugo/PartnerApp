@@ -5,3 +5,5 @@ export interface LoginResponse {
         barber : any
     }
 }
+
+

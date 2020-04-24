@@ -8,6 +8,7 @@ interface bodyLogin {
     phone : string
 }
 export class LoginServices {
+
     constructor(){}
 
     async login(user : string , pass:string){
@@ -28,4 +29,5 @@ export class LoginServices {
       catch (err) {
         return err;
       }};
+  
 }

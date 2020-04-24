@@ -6,7 +6,7 @@ export class LocalStorageService {
    
     constructor(){}
 		//save an object in the local storage
-    async saveObject(key :string ,object : any) {
+    	async saveObject(key :string ,object : any) {
 			await Storage.set({
 				key,
 				value: JSON.stringify(object)

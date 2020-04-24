@@ -28,7 +28,8 @@ const { Browser } = Plugins;
 
 const Login: React.FC = () => {
     const [user, setUser] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+	const [password, setPassword] = useState<string>("");
+	
     async function register(){
         await Browser.open({ url: 'https://wa.me/573162452663?text=Hola%2C%20me%20gustaria%20recuperar%20mi%20contrasena%20' });
 		}
@@ -41,12 +42,12 @@ const Login: React.FC = () => {
 				pass : password
 			};
 			//Make Request to the login service
-			loginService.login(user,password).then(res=>{
-				if(res)
+			// loginService.login(user,password).then(res=>{
+			// 	if(res)
 
-			}).catch(err=>{
-				console.log(err);
-			})
+			// }).catch(err=>{
+			// 	console.log(err);
+			// })
 
 			// loginService.login().then((res)=>{
 			// 	console.log(res);
