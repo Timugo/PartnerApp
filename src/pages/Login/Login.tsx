@@ -1,3 +1,5 @@
+// Page Styles
+import './Login.scss';
 import { 
     IonContent,
     IonPage,
@@ -13,53 +15,52 @@ import {
 } from '@ionic/react';
 import { chevronBackOutline,arrowForwardOutline} from 'ionicons/icons';
 import React, { useState } from 'react';
-//import ExploreContainer from '../components/ExploreContainer';
-import './Login.scss';
-
-import { Plugins } from '@capacitor/core';
-import { Redirect } from 'react-router';
+import { useHistory } from 'react-router';
 //Services
 import { LoginServices } from "../../services/auth-service";
 import { LocalStorageService } from "../../services/localData-service";
-//Interface
-import { User } from "../../interfaces/user.interface";
+/* Interfaces */
+//import { User } from "../../interfaces/user.interface";
 import { LoginResponse } from "../../interfaces/responses.interface";
-/* Facebook PLugin login */
-import { FacebookLoginResponse } from '@rdlabo/capacitor-facebook-login';
-const { FacebookLogin,Browser } = Plugins;
+/* PLugins */
+import { Plugins } from '@capacitor/core';
+
+const { Browser } = Plugins
+
+
 
 const Login: React.FC = () => {
-    const [user, setUser] = useState<string>("");
-		const [password, setPassword] = useState<string>("");
-
-    async function register(){
-        await Browser.open({ url: 'https://wa.me/573162452663?text=Hola%2C%20me%20gustaria%20recuperar%20mi%20contrasena%20' });
-		}
-		async function signIn(): Promise<void> {
-			
-		}
-		const handleSubmit =() =>{
+		// Properties to handle in the inputs
+		const [user, setUser] = useState<string>("");
+		const [password, setPassword] = useState<string>("");	
+		// history is used to navigate netwen pages
+		const history = useHistory();
+		/*
+			Login Function 
+		*/
+		const  HandleSubmit = async () =>{
+			/* React Functions must to have Capital leters */
 			let loginService  = new LoginServices();
 			let localDataService = new LocalStorageService();
-			
-			let userLogin : User = {
-				user : user,
-				pass : password
-			};
 			//Make Request to the login service
-			// loginService.login(user,password).then(res=>{
-			// 	if(res)
-
-			// }).catch(err=>{
-			// 	console.log(err);
-			// })
-
-			// loginService.login().then((res)=>{
-			// 	console.log(res);
-			// });
+			await loginService.login(user,password)
+				.then(res=>{
+						/* Save the JWT in the local storage*/
+						localDataService.saveItem("jwt",res.data.token)
+							.then(res =>{
+								//navigate to Home page
+								
+								history.push('/Home');
+							})
+							.catch(err => console.log(err));
+				}).catch(err=>{
+					console.log(err);
+				});
+		}
+		const register = async () => {
+			await Browser.open({ url: 'https://wa.me/573162452663?text=Hola%2C%20me%20gustaria%20recuperar%20mi%20contrasena%20' });
 		}
 		
-
     return (
 			<IonPage>
 			{/* <IonHeader className="ion-no-border">
@@ -202,7 +203,7 @@ const Login: React.FC = () => {
       						<h1>Ingresar</h1>
       					</IonCol>
       					<IonCol offset="2" className="ion-align-self-end">
-      						<IonButton  size="large" className="customButton" onClick={handleSubmit}>
+      						<IonButton  size="large" className="customButton" onClick={HandleSubmit}>
       							<IonIcon id="signButton" color="white" size="medium" icon={arrowForwardOutline} />
       						</IonButton>
       						{/*
@@ -224,9 +225,9 @@ const Login: React.FC = () => {
       				</IonRow>
       			</IonGrid>
 						
-						<IonButton className="login-button" onClick={() => signIn()} expand="full" fill="solid" color="primary">
+						{/* <IonButton className="login-button" onClick={() => signIn()} expand="full" fill="solid" color="primary">
             	Login with Facebook
-       			</IonButton>
+       			</IonButton> */}
       		</div>
   
       	</IonContent>

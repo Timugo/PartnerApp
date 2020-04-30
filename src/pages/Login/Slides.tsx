@@ -1,5 +1,5 @@
 import { IonContent, IonPage,IonButton,IonSlides, IonSlide,IonFooter, IonGrid, IonRow, IonCol,} from '@ionic/react';
-import React,{Component} from 'react';
+import React from 'react';
 //import ExploreContainer from '../components/ExploreContainer';
 import './Slides.scss';
 
@@ -65,7 +65,7 @@ const Slides: React.FC = () => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonButton expand="block" fill="clear" routerLink={"/login2"} >Iniciar Sesion</IonButton>
+              <IonButton expand="block" fill="clear" routerLink={"/login"} >Iniciar Sesion</IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>
