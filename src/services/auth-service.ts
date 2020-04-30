@@ -1,33 +1,26 @@
 
-import axios from 'axios'; 
+import axios from 'axios';
+import { LoginResponse } from "../interfaces/responses.interface"; 
 
 
-const  endpoint  =  `https://sandbox.timugo.com`;
+const  endpoint  =  `https://sandboxv2.timugo.com`;
 
-interface bodyLogin { 
-    phone : string
-}
 export class LoginServices {
 
-    constructor(){}
-
-    async login(user : string , pass:string){
-      //fetch the api
-      try {
-        const response  = await axios({
-          url: endpoint + '/loginBarber',
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            phone: user
-          }
-        });
-        return response.data;
+    async login(user : string , pass:string) {
+      let data :any ={
+        phone: user,
+        password : pass
       }
-      catch (err) {
-        return err;
-      }};
+      let config :any = { 
+        headers: {
+         'Content-Type': 'application/json',
+        },
+      }
+      let url : string = `${endpoint}/auth/loginPartner`
+      //fetch the api
+      return  await axios.post<LoginResponse>(url,data,config);
+      
+    }      
   
 }

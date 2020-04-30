@@ -4,17 +4,17 @@ const { Storage } = Plugins;
 
 export class LocalStorageService { 
    
-    constructor(){}
+    //constructor(){}
 		//save an object in the local storage
     	async saveObject(key :string ,object : any) {
-			await Storage.set({
-				key,
-				value: JSON.stringify(object)
-			}).then(res=>{
-				return true;
-			}).catch(err=>{
-				return err;
-			});
+				await Storage.set({
+					key,
+					value: JSON.stringify(object)
+				}).then(res=>{
+					return res;
+				}).catch(err=>{
+					return err;
+				});
 		}
 		// Get an saved object and return it
 		async getObject(key:string) {
@@ -31,13 +31,7 @@ export class LocalStorageService {
 		}
 		//get an specifil imtem (key->value) 
 		async getItem(key:string) {
-			await Storage.get({ key }).then((res)=>{
-				//if success
-				return res.value;
-			}).catch((err)=>{
-				//if an error ocurrs
-				return err;
-			});
+			return await Storage.get({ key })
 		}
 		//delete an item from the local storage and return true of error
 		async removeItem(key:string) {
@@ -54,11 +48,7 @@ export class LocalStorageService {
 		}
 		//Clear all the keys from items that are saved in the local storage
 		async clearStorage() {
-			await Storage.clear().then((res)=>{
-				return true;
-			}).catch((err)=>{
-				return err;
-			});
+			await Storage.clear();
 }
       
 }
