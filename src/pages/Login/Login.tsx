@@ -1,5 +1,6 @@
 // Page Styles
 import './Login.scss';
+/* React libraries */
 import { 
     IonContent,
     IonPage,
@@ -19,16 +20,11 @@ import { useHistory } from 'react-router';
 //Services
 import { LoginServices } from "../../services/auth-service";
 import { LocalStorageService } from "../../services/localData-service";
-/* Interfaces */
-//import { User } from "../../interfaces/user.interface";
-import { LoginResponse } from "../../interfaces/responses.interface";
 /* PLugins */
 import { Plugins } from '@capacitor/core';
 
+
 const { Browser } = Plugins
-
-
-
 const Login: React.FC = () => {
 		// Properties to handle in the inputs
 		const [user, setUser] = useState<string>("");
@@ -50,7 +46,7 @@ const Login: React.FC = () => {
 							.then(res =>{
 								//navigate to Home page
 								
-								history.push('/Home');
+								history.push('home');
 							})
 							.catch(err => console.log(err));
 				}).catch(err=>{
@@ -58,20 +54,12 @@ const Login: React.FC = () => {
 				});
 		}
 		const register = async () => {
+			/* Open a link that redirect user to whatsapp api  */
 			await Browser.open({ url: 'https://wa.me/573162452663?text=Hola%2C%20me%20gustaria%20recuperar%20mi%20contrasena%20' });
 		}
 		
     return (
 			<IonPage>
-			{/* <IonHeader className="ion-no-border">
-			<IonToolbar>
-			<IonButtons slot="start" className="backButton">
-      				<IonBackButton text="" color="primary" />
-      			</IonButtons>
-
-      		</IonToolbar>
-      	</IonHeader> */}
-
       	<IonContent>
       		<div className="textWelcome">
       			<IonText>
