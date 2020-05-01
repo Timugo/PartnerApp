@@ -4,7 +4,6 @@ import {
   IonHeader,
   IonToolbar,
   IonButtons,
-  IonBackButton,
   IonTitle,
   IonRefresher,
   IonRefresherContent,
@@ -12,7 +11,6 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonLabel,
   IonText,
   IonSlides,
   IonSlide,
@@ -20,13 +18,12 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonCardContent,
   IonImg,
   IonIcon,
   IonButton,
 } from '@ionic/react';
-import { star, add } from 'ionicons/icons';
-import React, { useState } from 'react';
+import { add } from 'ionicons/icons';
+import React from 'react';
 import { RefresherEventDetail } from '@ionic/core';
 //import ExploreContainer from '../components/ExploreContainer';
 import './Home.scss';
@@ -145,7 +142,7 @@ const Login: React.FC = () => {
               </IonText>
             </IonCol>
             <IonCol size="auto">
-              <IonButton fill="clear">
+              <IonButton fill="clear" routerLink="/products/create">
                 Agregar
                 <IonIcon slot="start" icon={add} />
               </IonButton>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonButtons, IonButton,  } from '@ionic/react';
+import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonButtons, IonButton, IonFooter,  } from '@ionic/react';
 import { LocalStorageService } from "../services/localData-service";
 import { useHistory, Redirect } from 'react-router';
 const LogOut = () =>{
@@ -26,6 +26,9 @@ export const SideMenu: React.FC = () => (
           <IonItem><IonButton onClick={LogOut}>Cerrar sesion</IonButton></IonItem>
         </IonList>
       </IonContent>
+      <IonFooter>
+        Holi
+      </IonFooter>
     </IonMenu>
 );
 
