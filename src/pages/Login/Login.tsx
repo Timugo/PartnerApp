@@ -22,27 +22,28 @@ import { LoginServices } from "../../services/auth-service";
 import { LocalStorageService } from "../../services/localData-service";
 /* PLugins */
 import { Plugins } from '@capacitor/core';
-
-
+/*Use Browser Plugin from capacitor plugins */
 const { Browser } = Plugins
+
+
 const Login: React.FC = () => {
+
 		// Properties to handle in the inputs
 		const [user, setUser] = useState<string>("");
 		const [password, setPassword] = useState<string>("");	
 		// history is used to navigate netwen pages
 		const history = useHistory();
 		/*
-			Login Function 
+			Login Function
+			React Functions must to have Capital leters 
 		*/
 		const  HandleSubmit = async () =>{
-			/* React Functions must to have Capital leters */
-			let loginService  = new LoginServices();
-			let localDataService = new LocalStorageService();
-			//Make Request to the login service
-			await loginService.login(user,password)
+			
+			//Make Request to the static login service
+			await LoginServices.login(user,password)
 				.then(res=>{
 						/* Save the JWT in the local storage*/
-						localDataService.saveItem("jwt",res.data.token)
+						LocalStorageService.saveItem("jwt",res.data.token)
 							.then(res =>{
 								//navigate to Home page
 								
@@ -128,27 +129,7 @@ const Login: React.FC = () => {
       					</IonCol>
       				</IonRow>
       			</IonGrid>
-      			{/* <IonRow className="ion-justify-content-end">
-      				<IonCol size="3">
-      					<div>
-      						1 of 2
-      					</div>
-      				</IonCol>
-      				<IonCol size="3">
-      					<div>
-      						2 of 2
-      					</div>
-      				</IonCol>
-      			</IonRow> */}
       		</div>
-      		{/* <IonHeader collapse="condense" className="ion-no-border">
-      			<IonToolbar>
-      				<IonButtons slot="start">
-      					<IonBackButton text="" color="primary" />
-      				</IonButtons>
-
-      			</IonToolbar>
-      		</IonHeader> */}
       		<IonGrid>
       			<IonRow>
       				<IonCol>
@@ -160,11 +141,12 @@ const Login: React.FC = () => {
       				</IonCol>
       			</IonRow>
       		</IonGrid>
+
       		<div className="LoginForm">
 							<IonGrid>
+
 								<IonRow>
 									<IonCol size="10" offset="1">
-
 										<IonItem>
 											<IonLabel color="medium" className="labelForm" position="floating">Telefono</IonLabel>
 											<IonInput value={user} onIonChange={e=> setUser(e.detail.value!)} type="number" clearInput={true}>
@@ -181,6 +163,7 @@ const Login: React.FC = () => {
 										</IonItem>
 									</IonCol>
 								</IonRow>
+
 							</IonGrid>
       		</div>
 
@@ -201,6 +184,7 @@ const Login: React.FC = () => {
 
       			</IonGrid>
       		</div>
+					
       		<div className="bottomText">
       			<IonGrid>
       				<IonRow class="ion-justify-content-around">
@@ -212,12 +196,8 @@ const Login: React.FC = () => {
       					</IonCol>
       				</IonRow>
       			</IonGrid>
-						
-						{/* <IonButton className="login-button" onClick={() => signIn()} expand="full" fill="solid" color="primary">
-            	Login with Facebook
-       			</IonButton> */}
       		</div>
-  
+
       	</IonContent>
       </IonPage>
     );

@@ -1,7 +1,17 @@
 import React from 'react';
-import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonButtons, IonButton, IonFooter,  } from '@ionic/react';
+import { 
+  IonMenu,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonList,
+  IonItem,
+  IonButton,
+  IonFooter,  
+} from '@ionic/react';
 import { LocalStorageService } from "../services/localData-service";
-import { useHistory, Redirect } from 'react-router';
+import { useHistory} from 'react-router';
 
 export const SideMenu: React.FC = () => {
   const history = useHistory();
