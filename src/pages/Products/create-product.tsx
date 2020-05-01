@@ -68,7 +68,7 @@ const CreateProduct: React.FC = () => {
           <IonRow>
             <IonCol offset="1">
               <div className="ion-characteristics-start">
-                <h4>Crear Producto</h4>
+                <h4>Crear Producto {process.env.NODE_ENV}</h4>
                 <IonText color="medium">
                  Añade la informacion del producto que quieres crear
                 </IonText>
