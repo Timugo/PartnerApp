@@ -1,4 +1,4 @@
-import { IonContent, IonPage,IonButton,IonFooter, IonGrid, IonRow, IonCol, IonLabel, IonText, IonIcon, IonList, IonItem, IonInput, IonTextarea, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonBackButton, IonImg} from '@ionic/react';
+import { IonContent, IonPage,IonButton,IonFooter, IonGrid, IonRow, IonCol, IonLabel, IonText, IonIcon, IonList, IonItem, IonInput, IonTextarea, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonBackButton, IonImg, IonToast} from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
@@ -11,10 +11,14 @@ const { Camera } = Plugins;
 const CreateProduct: React.FC = () => {
 
   const [ description, setDescription ] = useState<string>("");
+  const [ value, setValue ] = useState<number>(0);
   const [ name, setName ] = useState<string>("");
   const [ characteristics, setCharasteristics] = useState<string>("");
   const [ benefits, setBenefits ] = useState<string>("");
-  const [ img,setImg ] = useState<string>("");
+  const [ img,setImg ] = useState<string>("assets/img/post.svg");
+  const [showToast1, setShowToast1] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("Agregaste un nuevo articulo");
+  
   const PickPicture = async() =>{
     const image = await Camera.getPhoto({
       quality: 90,
@@ -27,14 +31,19 @@ const CreateProduct: React.FC = () => {
     // You can access the original file using image.path, which can be 
     // passed to the Filesystem API to read the raw data of the image, 
     // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+    
+    
     if(image.webPath){
+      setMessage(image.webPath);
       setImg(image.webPath);
+      setShowToast1(true);
     }
   }
   return (
     <IonPage id="homePage">
       <IonHeader className="ion-no-border">
         <IonToolbar>
+          
           
           <IonTitle>Nuevo Producto</IonTitle>
         </IonToolbar>
@@ -47,6 +56,14 @@ const CreateProduct: React.FC = () => {
             
           </IonToolbar>
         </IonHeader>
+
+        
+        <IonToast
+          isOpen={showToast1}
+          onDidDismiss={() => setShowToast1(false)}
+          message={message}
+          duration={500}
+        />
         <IonGrid>
           <IonRow>
             <IonCol offset="1">
@@ -58,12 +75,21 @@ const CreateProduct: React.FC = () => {
               </div>
             </IonCol>
           </IonRow>
+          <IonRow >
+            <IonCol offset="4" size="4">
+              <IonImg src={img}></IonImg>
+            </IonCol>
+            <IonCol offset="3" size="6">
+              <IonButton size="small" onClick={PickPicture}> Seleccionar fotografia</IonButton>
+              
+            </IonCol>
+          </IonRow>
           <IonRow>
-            <IonImg src={img}></IonImg>
+            
             <IonCol>
               <IonItem>
                 <IonLabel position="stacked">Precio</IonLabel>
-                <IonButton onClick={PickPicture}> Seleccionar fotografia</IonButton>
+                <IonInput type="number" className="inputs" autofocus={true} value={value} placeholder="En pesos"> </IonInput>
               </IonItem>
             </IonCol>
           </IonRow>
@@ -135,8 +161,7 @@ const CreateProduct: React.FC = () => {
               </IonButton>
             </IonCol>
             <IonCol size="6" >
-             
-              <IonButton expand="block" >Crear</IonButton>
+              <IonButton expand="block" onClick={()=>{setShowToast1(true)}} >Crear</IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>
