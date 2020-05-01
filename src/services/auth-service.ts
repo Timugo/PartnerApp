@@ -1,6 +1,8 @@
-
+/* IMport axios to make request to server */
 import axios from 'axios';
+/* Interfaces */
 import { LoginResponse } from "../interfaces/responses.interface"; 
+/* Envoriment service class */
 import { Enviroment } from "../enviroments/enviroments";
 
 export class LoginServices {
@@ -10,6 +12,7 @@ export class LoginServices {
   static async login(user : string , pass:string) {
     /* Initlize the Envoriment Class to get url */
     let enviroment = new Enviroment();
+    /* get url from envoriment service */
     const BASE_URL = await enviroment.getUrl();
     /* Body of request */
     let data :any ={
