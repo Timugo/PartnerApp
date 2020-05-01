@@ -2,15 +2,17 @@ import React from 'react';
 import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonButtons, IonButton, IonFooter,  } from '@ionic/react';
 import { LocalStorageService } from "../services/localData-service";
 import { useHistory, Redirect } from 'react-router';
-const LogOut = () =>{
- 
-  let storageService = new LocalStorageService();
-  storageService.clearStorage()
-    .then((res)=>{
-      //window.navigator("/")
-    })
-} 
-export const SideMenu: React.FC = () => (
+
+export const SideMenu: React.FC = () => {
+  const history = useHistory();
+  const LogOut = () =>{
+    let storageService = new LocalStorageService();
+    storageService.clearStorage()
+      .then((res)=>{
+        history.push("/");
+      })
+    }  
+    return (
     <IonMenu menuId="sideMenu" type="overlay" side="start" contentId="main">
       <IonHeader>
         <IonToolbar color="primary">
@@ -30,6 +32,7 @@ export const SideMenu: React.FC = () => (
         Holi
       </IonFooter>
     </IonMenu>
-);
+    )
+};
 
 export default SideMenu;
