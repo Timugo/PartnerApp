@@ -16,8 +16,7 @@ import { useHistory} from 'react-router';
 export const SideMenu: React.FC = () => {
   const history = useHistory();
   const LogOut = () =>{
-    let storageService = new LocalStorageService();
-    storageService.clearStorage()
+    LocalStorageService.clearStorage()
       .then((res)=>{
         history.push("/");
       })

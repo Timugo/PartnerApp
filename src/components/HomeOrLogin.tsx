@@ -15,10 +15,8 @@ const HomeOrLogin : React.FC = () => {
 	const [ redirect, setRedirect ] = useState<string>("");
 	/*If User is logged then, redirect to home, if not redirect to slides tutorial*/ 
 	useEffect(() => {
-		/* Initialize the local storage serice */
-		const storageService = new LocalStorageService();
 		// Check if exits jwt in the phone
-		storageService.getItem("jwt")
+		LocalStorageService.getItem("jwt")
 			.then((token )=>{
 			/* If exists the jwt in the phone the user is logged */ 
 				if(token.value != null){
