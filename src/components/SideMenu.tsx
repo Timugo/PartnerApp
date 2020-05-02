@@ -10,7 +10,7 @@ import {
   IonButton,
   IonFooter,  
 } from '@ionic/react';
-import { LocalStorageService } from "../services/localData-service";
+import { LocalStorageService } from "../services/localStorage.service";
 import { useHistory} from 'react-router';
 
 export const SideMenu: React.FC = () => {

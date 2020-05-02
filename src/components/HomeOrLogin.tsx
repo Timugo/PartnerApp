@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router';
 /* Services */
-import { LocalStorageService } from "../services/localData-service";
+import { LocalStorageService } from "../services/localStorage.service";
 
 /*
 	This functions checks in the local storage for a 

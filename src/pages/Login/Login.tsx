@@ -18,8 +18,8 @@ import { chevronBackOutline,arrowForwardOutline} from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 //Services
-import { LoginServices } from "../../services/auth-service";
-import { LocalStorageService } from "../../services/localData-service";
+import { LoginServices } from "../../services/auth.service";
+import { LocalStorageService } from "../../services/localStorage.service";
 /* PLugins */
 import { Plugins } from '@capacitor/core';
 /*Use Browser Plugin from capacitor plugins */
