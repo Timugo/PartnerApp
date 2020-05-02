@@ -24,15 +24,22 @@ import {
 } from '@ionic/react';
 import React, { useState } from 'react';
 /* Ionic icons from ionic library  */
-import { closeOutline } from 'ionicons/icons';
+import { closeOutline} from 'ionicons/icons';
+/* Services */
+import { ProductService } from "../../services/product-service";
+/* Interfaces */
+import { Product } from "../../interfaces/product.interface";
 /* Capacitor plugins libraries */
 import { Plugins, CameraResultType} from '@capacitor/core';
+import { CreateProductResponse } from '../../interfaces/responses.interface';
+import { useHistory } from 'react-router';
 //instance of camera capacitor plugin
 const { Camera } = Plugins;
 
 
 
 const CreateProduct: React.FC = () => {
+  const history = useHistory();
   /* variables used in the page */
   const [ description, setDescription ] = useState<string>("");
   const [ value, setValue ] = useState<number>(1000);
@@ -44,6 +51,36 @@ const CreateProduct: React.FC = () => {
   const [showToast1, setShowToast1] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("Agregaste un nuevo articulo");
   
+  /*
+  This function handle a submit
+  of a new product
+  */
+  const SendProduct = async () =>{
+    let product : Product = {
+      description : description,
+      price : value,
+      phone : 123456121,
+      benefits : benefits,
+      characteristics : characteristics,
+      deliveryDays : timeArrival,
+      img : img
+    };
+
+    ProductService.createProduct(product)
+      .then((response )=>{
+        if(response.status === 200){
+          let res : CreateProductResponse = response.data;
+          setMessage("Se creo el producto correctamente");
+          setShowToast1(true);
+          history.push("/home");
+        }
+      })
+      .catch(err =>{
+        console.log(err);
+      });
+
+
+  }
   /*
     This function Use the capacitor camera plugin
     to make a photo or select from gallery 
@@ -208,7 +245,7 @@ const CreateProduct: React.FC = () => {
               </IonButton>
             </IonCol>
             <IonCol size="6" >
-              <IonButton expand="block" onClick={()=>{setShowToast1(true)}} >Crear</IonButton>
+              <IonButton expand="block" onClick={SendProduct} >Crear</IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>
