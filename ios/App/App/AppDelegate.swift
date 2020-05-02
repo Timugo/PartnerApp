@@ -1,28 +1,19 @@
 import UIKit
 import Capacitor
 // Facebook  Login Capacitor plugin https://github.com/rdlabo/capacitor-facebook-login
-import FacebookCore
-import FBSDKCoreKit
+// import FacebookCore
+// import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
  
-  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-    if CAPBridge.handleOpenUrl(url, options) {
-      return FBSDKCoreKit.ApplicationDelegate.shared.application(app, open: url, options: options)
-    }
-    else{
-      return false
-    }
-  }
-  //ENd login facebook plugin
-
+  
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     // Facebook  Login Capacitor plugin https://github.com/rdlabo/capacitor-facebook-login
-    FBSDKCoreKit.ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+    //FBSDKCoreKit.ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
     //End plugin facebook
     return true
   }
@@ -53,14 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when the app was launched with a url. Feel free to add additional processing here,
     // but if you want the App API to support tracking app url opens, make sure to keep this call
     
-    // Facebook  Login Capacitor plugin https://github.com/rdlabo/capacitor-facebook-login
-    if CAPBridge.handleOpenUrl(url, options) {
-      return FBSDKCoreKit.ApplicationDelegate.shared.application(app, open: url, options: options)
-    }
-    else{
-      return false
-    }
-    //end facebook plugin 
 
     return CAPBridge.handleOpenUrl(url, options)
   }

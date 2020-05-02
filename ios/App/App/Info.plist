@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>TimugoPartnerApp</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -26,22 +26,9 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>capacitor</string>
-				<!-- Facebook login plugin capacitor https://github.com/rdlabo/capacitor-facebook-login -->
-				<string>fb2625184964387566</string>
 			</array>
 		</dict>
 	</array>
-	<!-- Facebook login capaator plugin  https://github.com/rdlabo/capacitor-facebook-login-->
-	<key>FacebookAppID</key>
-	<string>2625184964387566</string>
-	<key>FacebookDisplayName</key>
-	<string>Wimlov</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>fbapi</string>
-		<string>fbauth2</string>
-	</array>
-	<!-- end plugin facebook -->
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
