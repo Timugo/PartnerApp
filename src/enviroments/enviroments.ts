@@ -15,7 +15,7 @@ export class Enviroment {
       return 'https://sandboxv2.timugo.com'
     }else{
       // local and test url
-      return 'https://sandboxv2.timugo.com'
+      return 'http://localhost:3001'
     }
   }
 }

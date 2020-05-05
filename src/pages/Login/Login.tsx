@@ -43,7 +43,7 @@ const Login: React.FC = () => {
 			await LoginServices.login(user,password)
 				.then(res=>{
 						/* Save the JWT in the local storage*/
-						LocalStorageService.saveItem("jwt",res.data.token)
+						LocalStorageService.saveItem("jwt",res.data.content.token)
 							.then(res =>{
 								//navigate to Home page
 								

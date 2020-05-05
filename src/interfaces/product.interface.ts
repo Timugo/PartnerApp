@@ -5,5 +5,6 @@ export interface Product {
   characteristics : string;
   img : string;
   deliveryDays : number;
-  phone : number 
+  phone : number,
+  name : string
 }

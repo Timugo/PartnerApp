@@ -21,92 +21,61 @@ import {
   IonImg,
   IonIcon,
   IonButton,
+  useIonViewDidEnter,
 } from '@ionic/react';
-import { add } from 'ionicons/icons';
-import React from 'react';
+import { add} from 'ionicons/icons';
+import React, { useState } from 'react';
 import { RefresherEventDetail } from '@ionic/core';
-//import ExploreContainer from '../components/ExploreContainer';
+/* Page Css Styles */
 import './Home.scss';
+/* Services */
+import { ProductService } from "../../services/product-service";
+/* Interfaces */
+import { Product } from "../../interfaces/responses.interface";
 
-//import {  useHistory } from 'react-router';
-//Services
-//import { LocalStorageService } from "../../services/localData-service";
-//Interface
-//import { User } from "../../interfaces/user.interface";
 
-function doRefresh(event: CustomEvent<RefresherEventDetail>) {
-  console.log('Begin async operation');
 
-  setTimeout(() => {
-    console.log('Async operation has ended');
-    event.detail.complete();
-  }, 2000);
-}
-
-const slideOpts = {
-  speed: 400,
-  centeredSlides:true,
-  spaceBetween :10,
-  slidesPerView : 1.6 
-  
-};
-
-const data = [
-  {
-    ref : "Ref1",
-    title  : "Title1",
-    urlImg : "http://via.placeholder.com/300x300"
-  },
-  {
-    ref : "Ref1",
-    title  : "Title1",
-    urlImg : "https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000"
-  },
-  {
-    ref : "Ref1",
-    title  : "Title1",
-    urlImg : "https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000"
-  },
-  {
-    ref : "Ref1",
-    title  : "Title1",
-    urlImg : "https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000"
-  },
-  {
-    ref : "Ref1",
-    title  : "Title1",
-    urlImg : "https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000"
-  },
-  {
-    ref : "Ref1",
-    title  : "Title1",
-    urlImg : "https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000"
-  },
-  {
-    ref : "Ref1",
-    title  : "Title1",
-    urlImg : "https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000"
-  },
-  {
-    ref : "Ref1",
-    title  : "Title1",
-    urlImg : "https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000"
-  },
-
-]
 
 const Login: React.FC = () => {
-  //const [user, setUser] = useState<string>("");
-  //const [password, setPassword] = useState<string>("");
-  //const history = useHistory();
-  const Product = () =>{
-    console.log("producto");
+  const [products, setProducts] = useState<Product[]>();
+  /* Options to swiper carousell */
+  const slideOpts = {
+    speed: 400,
+    centeredSlides:true,
+    spaceBetween :10,
+    slidesPerView : 1.6   
+  };
+  /*
+    This function loads every time 
+    page are charged
+  */
+  useIonViewDidEnter(() => {
+    fetchProducts();
+  });  
+  /*
+    This function refresh the products
+    to active need to swipe off the page
+  */
+  const Refresh = (event: CustomEvent<RefresherEventDetail>) =>{
+    fetchProducts();
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.detail.complete();
+    }, 2000);
   }
-  
+  /*
+    This function fetch the api to bring
+    the array of products to show
+  */
+  const fetchProducts = () => {
+    ProductService.getProducts()
+      .then((response) => {
+        //const data: Product[] = products.data.content.products;
+        /* Set the Products to variable */
+        setProducts(response.data.content.products);
+      });
+  };
 
-  
-  
-  
   return (
     <IonPage>
       <IonHeader className="ion-no-border">
@@ -121,11 +90,10 @@ const Login: React.FC = () => {
       <IonContent>
         <IonHeader collapse="condense">
           <IonToolbar >
-            
             <IonTitle size="large">Hola Terricola !</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+        <IonRefresher slot="fixed" onIonRefresh={Refresh}>
           <IonRefresherContent
             pullingIcon="arrow-dropdown"
             pullingText="Desliza para refrescar"
@@ -135,7 +103,7 @@ const Login: React.FC = () => {
         </IonRefresher>
 
         <IonGrid>
-          <IonRow className="ion-align-items-end ion-justify-content-between">
+          <IonRow className="ion-margin ion-align-items-end ion-justify-content-between">
             <IonCol>
               <IonText>
                 <h1>Tus Productos</h1>
@@ -148,21 +116,40 @@ const Login: React.FC = () => {
               </IonButton>
             </IonCol>
           </IonRow>
-          <IonSlides pager={false} options={slideOpts}>
-            {
-              data.map(function(item,i) {
-                return <IonSlide key={i} >
-                        <IonCard onClick={Product}>
-                          <IonImg src={item.urlImg}></IonImg>
-                          <IonCardHeader>
-                            <IonCardSubtitle>{item.ref}</IonCardSubtitle>
-                            <IonCardTitle>{item.title}</IonCardTitle>
-                          </IonCardHeader>
-                        </IonCard>
-                      </IonSlide>
-              })
-            }
-          </IonSlides>
+          {
+            /* If exists products */
+            (products) ?
+              /* Returns the Slides with product */
+              ( 
+                <IonRow>
+                  <IonSlides pager={false} options={slideOpts}>
+                    {
+                      products.map(function(item : Product,i :number) {
+                    
+                        return <IonSlide key={i} >
+                                <IonCard >
+                                  <IonImg src={"https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000"}></IonImg>
+                                  <IonCardHeader>
+                                    <IonCardSubtitle>{item.price}</IonCardSubtitle>
+                                    <IonCardTitle>{item.description}</IonCardTitle>
+                                  </IonCardHeader>
+                                </IonCard>
+                              </IonSlide>
+                      })
+                    }
+                  </IonSlides>
+                </IonRow>
+              ) : 
+              /* If products arent define show a default message */
+              (
+                <IonRow className="ion-padding">
+                  <IonCol>
+                    <h2>Ups, Aun tienes productos</h2>
+
+                  </IonCol>
+                </IonRow>
+              )
+          }
         </IonGrid>
        
       </IonContent>

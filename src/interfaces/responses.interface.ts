@@ -1,5 +1,10 @@
 export interface LoginResponse {
-    token : string
+    response : number,
+    content : {
+      expiresIn: number,
+      token: string            
+
+    }
 }
 
 export interface CreateProductResponse {
@@ -7,6 +12,19 @@ export interface CreateProductResponse {
     content :{
         message: string,
         product : any 
+    }
+}
+
+export interface Product {
+    _id :string,
+    status : string,
+    price : number,
+    description : string
+}
+export interface getProductsReponse {
+    response : number,
+    content :{
+        products : [Product] 
     }
 }
 

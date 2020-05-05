@@ -31,7 +31,6 @@ import { ProductService } from "../../services/product-service";
 import { Product } from "../../interfaces/product.interface";
 /* Capacitor plugins libraries */
 import { Plugins, CameraResultType} from '@capacitor/core';
-import { CreateProductResponse } from '../../interfaces/responses.interface';
 import { useHistory } from 'react-router';
 //instance of camera capacitor plugin
 const { Camera } = Plugins;
@@ -47,7 +46,7 @@ const CreateProduct: React.FC = () => {
   const [ name, setName ] = useState<string>("");
   const [ characteristics, setCharasteristics] = useState<string>("");
   const [ benefits, setBenefits ] = useState<string>("");
-  const [ img,setImg ] = useState<string>("assets/img/post.svg");
+  const [ img,setImg ] = useState<string>(" ");
   const [showToast1, setShowToast1] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("Agregaste un nuevo articulo");
   
@@ -63,14 +62,13 @@ const CreateProduct: React.FC = () => {
       benefits : benefits,
       characteristics : characteristics,
       deliveryDays : timeArrival,
-      img : img
+      img : img,
+      name : name
     };
 
     ProductService.createProduct(product)
       .then((response )=>{
         if(response.status === 200){
-          let res : CreateProductResponse = response.data;
-          setMessage("Se creo el producto correctamente");
           setShowToast1(true);
           history.push("/home");
         }
@@ -93,8 +91,6 @@ const CreateProduct: React.FC = () => {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
-      //height : 300,
-      //width : 300,
       resultType: CameraResultType.Uri
     });
     // image.webPath will contain a path that can be set as an image src. 
