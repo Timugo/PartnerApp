@@ -23,7 +23,7 @@ import {
   IonSelectOption,
   IonTextarea,
 } from '@ionic/react';
-
+import { closeOutline} from 'ionicons/icons';
 /* Css component styles */
 import './ProductModal.scss'
 import { Product } from '../interfaces/product.interface';
@@ -93,7 +93,28 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
       .then(response =>{
         setToastMessage("El producto se actualizo correctamente");
         setShowToast(true);
-        onDismissModal();
+      })
+      .catch(err=>{
+        setToastMessage("Ups, ocurrio un error, intenta mas tarde");
+        setShowToast(true);
+      });
+  }
+  /*
+    This function make a request to server
+    to delete a current product in the modal
+  */
+  const DeleteProduct =() =>{
+    /* Fetch the server to delete a product */
+    ProductService.deleteProduct(product._id!)
+      .then(response =>{
+        /* reponse = 2 its a good request */
+        if(response.data.response == 2){
+          setToastMessage("El producto se elimino");
+          setShowToast(true);
+        }else{
+          setToastMessage("El producto no se elimino, intenta mas tarde");
+          setShowToast(true);
+        }
       })
       .catch(err=>{
         setToastMessage("Ups, ocurrio un error, intenta mas tarde");
@@ -205,14 +226,15 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
           buttons={[
             {
               side: 'start',
-              icon: 'star',
+              icon: 'closeOutline',
               text: 'Mejor No',
             },
             {
               text: 'Eliminar',
               role: 'Eliminar',
               handler: () => {
-                console.log('Cancel clicked');
+                /* If user confirms delete */
+                DeleteProduct();
               }
             }
           ]}
