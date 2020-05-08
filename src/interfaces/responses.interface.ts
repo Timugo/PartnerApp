@@ -15,7 +15,7 @@ export interface CreateProductResponse {
     }
 }
 
-export interface Product {
+export interface ProductResponse {
     _id :string,
     status : string,
     price : number,
@@ -24,7 +24,7 @@ export interface Product {
 export interface getProductsReponse {
     response : number,
     content :{
-        products : [Product] 
+        products : [ProductResponse] 
     }
 }
 

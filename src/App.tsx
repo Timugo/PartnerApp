@@ -10,7 +10,7 @@ import Login2 from './pages/Login/Login2'
 import SideMenu from './components/SideMenu';
 import Home from "./pages/Home/Home";
 import NewProduct from "./pages/Products/create-product";
-import Product from "./pages/Products/Product";
+
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -47,7 +47,6 @@ const App: React.FC = () => (
         <Route path="/login" component={Login} exact={true} />
         <Route path="/login2" component={Login2} exact={true} />
         <Route path="/home" component={Home} exact={true} />
-        <Route path="/product" component={Product} exact={true} />
         <Route path="/products/create" component={NewProduct} exact={true} />
         {/*If User is logged then, redirect to home, if not redirect to slides tutorial*/  }
         <Route exact path="/" component={HomeOrLogin}/>
