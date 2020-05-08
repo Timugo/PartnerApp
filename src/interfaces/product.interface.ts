@@ -6,6 +6,6 @@ export interface Product {
   characteristics? : string;
   img? : string;
   deliveryDays? : number;
-  phone? : number,
   name? : string
+  status? : string
 }

@@ -58,7 +58,6 @@ const CreateProduct: React.FC = () => {
     let product : Product = {
       description : description,
       price : value,
-      phone : 123456121,
       benefits : benefits,
       characteristics : characteristics,
       deliveryDays : timeArrival,
