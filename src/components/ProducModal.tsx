@@ -21,7 +21,7 @@ import {
   IonListHeader,
   IonSelect,
   IonSelectOption,
-  IonItemDivider
+  IonTextarea,
 } from '@ionic/react';
 
 /* Css component styles */
@@ -49,7 +49,15 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
   const [ showToast , setShowToast] = useState<boolean>(false);
   const [ showDeleteToast , setShowDeleteToast] = useState<boolean>(false);
   const [ toasMessage , setToastMessage] = useState<string>("");
-  const [ status , setStatus] = useState<string>("Activo");
+  /* Product characteristics */
+  const [ description, setDescription ]  = useState<string>(product.description!)
+  const [ price, setPrice ] = useState<number>(product.price!)
+  const [ benefits, setBenefits ]  = useState<string>(product.benefits!)
+  const [ characteristics, setCharacteristics ] = useState<string>(product.characteristics!)
+  const [ img, setImg ] = useState<string>(product.img!)
+  const [ deliveryDays, setDeliveryDays ] = useState<number>(product.deliveryDays!)
+  const [ name, setName ] = useState<string>(product.name!)
+  const [ status, setStatus ] = useState<string>(product.status!)
   /*
     This Function use the clipboard plugin
     from capacitor to copy a specific text
@@ -71,8 +79,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
   */
   const UpdateProduct = () =>{
     /* Request to the server */
+    console.log(product);
   }
-  console.log(product);
+  
   return (
     /* Used the <> because only can return a hole component  */
     <>
@@ -112,24 +121,44 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
           </IonItem>
           <IonItem>
             <IonLabel>Precio</IonLabel>
-            <IonInput value={product.price}  placeholder={product.price?.toString()}></IonInput>
+            <IonInput value={product.price}   placeholder={product.price?.toString()}></IonInput>
           </IonItem>
           <IonItem>
             <IonLabel>Nombre</IonLabel>
-            <IonInput placeholder={product.name}></IonInput>
+            <IonInput value={name} placeholder={product.name}></IonInput>
           </IonItem>
           
           <IonItem>
             <IonLabel>Descripcion</IonLabel>
-            <IonInput placeholder={product.description}></IonInput>
+            <IonInput value={description} placeholder={product.description}></IonInput>
           </IonItem>
           <IonItem>
-            <IonLabel>Nombre</IonLabel>
-            <IonInput placeholder={product.deliveryDays?.toString()}></IonInput>
+            <IonLabel>Dias para entrega</IonLabel>
+            <IonInput  value={deliveryDays} placeholder={product.deliveryDays?.toString()}></IonInput>
           </IonItem>
           <IonItem>
-            <IonLabel>Estado (Activo | Inactivo)</IonLabel>
-            <IonToggle slot="end"></IonToggle>
+            <IonLabel position="stacked">Caracteriticas</IonLabel>
+            <IonTextarea 
+              className="inputs"
+              placeholder={characteristics}
+              autoGrow={true}
+              maxlength={400}     
+              value={characteristics}
+              rows={6} cols={20}
+              onIonChange={e => setCharacteristics(e.detail.value!)}>
+            </IonTextarea>
+          </IonItem>
+          <IonItem>
+            <IonLabel position="stacked">Beneficios</IonLabel>
+            <IonTextarea 
+              className="inputs"
+              placeholder={benefits}
+              autoGrow={true}
+              maxlength={400}     
+              value={benefits}
+              rows={6} cols={20}
+              onIonChange={e => setBenefits(e.detail.value!)}>
+            </IonTextarea>
           </IonItem>
         </IonList>
 
