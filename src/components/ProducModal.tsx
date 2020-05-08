@@ -29,6 +29,7 @@ import './ProductModal.scss'
 import { Product } from '../interfaces/product.interface';
 /* Capacitor Plugins */
 import { Plugins } from '@capacitor/core';
+import { ProductService } from '../services/product.service';
 
 const { Clipboard } = Plugins;
 
@@ -38,7 +39,6 @@ interface OwnProps {
 }
 /* Variables props */
 interface PageProps {
-  
   product : Product
 }
 /* Union of all properties to inject into component */
@@ -79,9 +79,28 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
   */
   const UpdateProduct = () =>{
     /* Request to the server */
-    console.log(product);
+    let productUpdated : Product ={
+      status,
+      name,
+      deliveryDays,
+      characteristics,
+      price,
+      description,
+      benefits
+    }
+    /* Fetch the api to update the product */
+    ProductService.updateProduct(productUpdated)
+      .then(response =>{
+        setToastMessage("El producto se actualizo correctamente");
+        setShowToast(true);
+        onDismissModal();
+      })
+      .catch(err=>{
+        setToastMessage("Ups, ocurrio un error, intenta mas tarde");
+        setShowToast(true);
+      });
   }
-  
+
   return (
     /* Used the <> because only can return a hole component  */
     <>
@@ -160,11 +179,6 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
               onIonChange={e => setBenefits(e.detail.value!)}>
             </IonTextarea>
           </IonItem>
-        </IonList>
-
-        <IonList>
-          
-
           <IonItem>
             <IonLabel>Estado</IonLabel>
             <IonSelect value={status} placeholder="Select One" onIonChange={e => setStatus(e.detail.value)}>
@@ -174,8 +188,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
             </IonSelect>
           </IonItem>
 
-          
         </IonList>
+
+        {/* Auxiliary toasts */}
         <IonToast
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}
