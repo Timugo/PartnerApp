@@ -1,6 +1,13 @@
 /* Interfaces */
 import { Product } from "./product.interface";
 
+/* Interface of all server responses (improve typescript) */
+export interface GenericResponse {
+    response : number,
+    content : {
+        message : string            
+    }
+}
 export interface LoginResponse {
     response : number,
     content : {
