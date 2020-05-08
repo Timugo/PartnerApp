@@ -14,7 +14,6 @@ import {
   IonLabel,
   IonInput,
   IonList,
-  IonToggle,
   IonText,
   IonToast,
   IonFooter,
@@ -161,20 +160,20 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
           </IonItem>
           <IonItem>
             <IonLabel>Precio</IonLabel>
-            <IonInput value={product.price}   placeholder={product.price?.toString()}></IonInput>
+            <IonInput value={product.price} onIonChange={e => setPrice(parseInt(e.detail.value!))}  placeholder={product.price?.toString()}></IonInput>
           </IonItem>
           <IonItem>
             <IonLabel>Nombre</IonLabel>
-            <IonInput value={name} placeholder={product.name}></IonInput>
+            <IonInput value={name} onIonChange={e => setName(e.detail.value!)} placeholder={product.name}></IonInput>
           </IonItem>
           
           <IonItem>
             <IonLabel>Descripcion</IonLabel>
-            <IonInput value={description} placeholder={product.description}></IonInput>
+            <IonInput value={description} onIonChange={e => setDescription(e.detail.value!)} placeholder={product.description}></IonInput>
           </IonItem>
           <IonItem>
             <IonLabel>Dias para entrega</IonLabel>
-            <IonInput  value={deliveryDays} placeholder={product.deliveryDays?.toString()}></IonInput>
+            <IonInput  value={deliveryDays} onIonChange={e => setDeliveryDays(parseInt(e.detail.value!))} placeholder={product.deliveryDays?.toString()}></IonInput>
           </IonItem>
           <IonItem>
             <IonLabel position="stacked">Caracteriticas</IonLabel>
