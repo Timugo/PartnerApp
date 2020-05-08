@@ -1,3 +1,6 @@
+/* Interfaces */
+import { Product } from "./product.interface";
+
 export interface LoginResponse {
     response : number,
     content : {
@@ -21,10 +24,16 @@ export interface ProductResponse {
     price : number,
     description : string
 }
-export interface getProductsReponse {
+export interface GetProductsReponse {
     response : number,
     content :{
         products : [ProductResponse] 
+    }
+}
+export interface UpdateProductReponse {
+    response : number,
+    content :{
+        product : Product 
     }
 }
 

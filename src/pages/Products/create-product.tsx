@@ -26,7 +26,7 @@ import React, { useState } from 'react';
 /* Ionic icons from ionic library  */
 import { closeOutline} from 'ionicons/icons';
 /* Services */
-import { ProductService } from "../../services/product-service";
+import { ProductService } from "../../services/product.service";
 /* Interfaces */
 import { Product } from "../../interfaces/product.interface";
 /* Capacitor plugins libraries */

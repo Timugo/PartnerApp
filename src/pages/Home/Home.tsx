@@ -31,7 +31,7 @@ import { RefresherEventDetail } from '@ionic/core';
 /* Page Css Styles */
 import './Home.scss';
 /* Services */
-import { ProductService } from "../../services/product-service";
+import { ProductService } from "../../services/product.service";
 /* Interfaces */
 import { Product } from '../../interfaces/product.interface';
 
