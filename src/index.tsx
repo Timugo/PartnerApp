@@ -8,10 +8,11 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
 setupConfig({
     mode:"ios"
 });
-/* PLugins PWA or electron */
-defineCustomElements(window);
+
 /* IOnic react start the app */
 ReactDOM.render(<App />, document.getElementById('root'));
+/* PLugins PWA or electron */
+defineCustomElements(window);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
