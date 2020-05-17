@@ -1,0 +1,38 @@
+/*Swiper Bullets*/
+.swiper-pagination-bullet {
+  background: grey; 
+}
+.swiper-pagination-bullet-active {
+  background:#049C9D ;
+}
+/*****************************/
+.title{
+  margin-top: 80px;
+}
+p {
+  margin-bottom: 60px;
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--ion-color-step-600, #60646b); 
+  b {
+    color: var(--ion-text-color, #000000);
+    font-weight: 500;
+  }
+}
+.swiper-slide {
+  display: block;
+}
+//Footer
+.btn-primary{
+  height: 60px;
+}
+//Responsive design for small screens
+@media screen and (max-height : 775px){
+  .title{
+    margin-top: 0px;
+  }
+  p{
+    margin-bottom: 40px;
+  }
+}
+

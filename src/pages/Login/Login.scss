@@ -1,0 +1,41 @@
+// .ingresa{
+//     margin-bottom: 100px;
+// }
+// #signButton{
+//     font-size: 64px;
+// }
+.LoginForm{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    //margin-left: 20px;
+    //margin-right: 10px;
+}
+.bottomButtons{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 60%;
+    transform: translateY(120%);
+}
+.bottomText{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 90%;
+}
+.textWelcome{
+    position: absolute;
+    left: 40px;
+    right: 0;
+    top: 15%;
+}
+
+
+.customButton{
+    --background : #215f78;
+    --border-radius: 50%;
+    --background-activated: #1d546a;
+}
+  

@@ -1,10 +1,14 @@
+ext {
+    cordovaAndroidVersion =  project.hasProperty('cordovaAndroidVersion') ? rootProject.ext.cordovaAndroidVersion : '7.0.0'
+}
+
 buildscript {
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:3.6.1'
     }
 }
 
