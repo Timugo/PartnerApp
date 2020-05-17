@@ -1,9 +1,14 @@
+/* React Dependencies */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 import { setupConfig } from '@ionic/react';
+/* Ionic App importation */
+import App from './App';
+/* Firebase service worker */
+import * as serviceWorker from './serviceWorker';
+/* PWA elements implementation for capacitor plugins */
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+
 //Force App to user ios mode ever
 setupConfig({
     mode:"ios"
