@@ -41,7 +41,7 @@ const CreateProduct: React.FC = () => {
   const history = useHistory();
   /* variables used in the page */
   const [ description, setDescription ] = useState<string>("");
-  const [ value, setValue ] = useState<number>(1000);
+  //const [ value, setValue ] = useState<number>(1000);
   const [ timeArrival, setTimeArrival ] = useState<number>(0);
   const [ name, setName ] = useState<string>("");
   const [ characteristics, setCharasteristics] = useState<string>("");
@@ -57,7 +57,7 @@ const CreateProduct: React.FC = () => {
   const SendProduct = async () =>{
     let product : Product = {
       description : description,
-      price : value,
+      //price : value,
       benefits : benefits,
       characteristics : characteristics,
       deliveryDays : timeArrival,
@@ -146,7 +146,7 @@ const CreateProduct: React.FC = () => {
           </IonRow>
           {/* Row 3  */}
           <IonRow>
-            <IonCol size="6">
+            {/* <IonCol size="6">
               <IonItem>
                 <IonLabel position="stacked">Precio</IonLabel>
                 <IonInput 
@@ -159,7 +159,7 @@ const CreateProduct: React.FC = () => {
                   onIonChange={e => setValue(parseInt(e.detail.value!))}>
                 </IonInput>
               </IonItem>
-            </IonCol>
+            </IonCol> */}
             <IonCol size="6">
               <IonItem>
                 <IonLabel position="stacked">Tiempo de entrega</IonLabel>

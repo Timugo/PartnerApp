@@ -53,7 +53,7 @@ const Login: React.FC = () => {
   const [showProductModal, setShowProductModal] = useState<boolean>(false);
   const [showToast, setShowToast] = useState<boolean>(false);
   const [messageToast, setMessageToast] = useState<string>("");
-  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
+  //const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
   const pageRef = useRef<HTMLElement>(null);
   /*
     This function loads every time 
@@ -153,9 +153,9 @@ const Login: React.FC = () => {
                     
                         return <IonSlide key={i} >
                                 <IonCard onClick={()=> {GoProduct(item)}}>
-                                  <IonImg src={"https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000"}></IonImg>
+                                  <IonImg src={item.img}></IonImg>
                                   <IonCardHeader>
-                                    <IonCardSubtitle>{item.price}</IonCardSubtitle>
+                                    {/* <IonCardSubtitle>{item.price}</IonCardSubtitle> */}
                                     <IonCardTitle>{item.description}</IonCardTitle>
                                   </IonCardHeader>
                                 </IonCard>

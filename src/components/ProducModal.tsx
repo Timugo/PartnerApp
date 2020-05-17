@@ -22,7 +22,7 @@ import {
   IonSelectOption,
   IonTextarea,
 } from '@ionic/react';
-import { closeOutline} from 'ionicons/icons';
+import { } from 'ionicons/icons';
 /* Css component styles */
 import './ProductModal.scss'
 import { Product } from '../interfaces/product.interface';
@@ -50,7 +50,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
   const [ toasMessage , setToastMessage] = useState<string>("");
   /* Product characteristics */
   const [ description, setDescription ]  = useState<string>(product.description!)
-  const [ price, setPrice ] = useState<number>(product.price!)
+  //const [ price, setPrice ] = useState<number>(product.price!)
   const [ benefits, setBenefits ]  = useState<string>(product.benefits!)
   const [ characteristics, setCharacteristics ] = useState<string>(product.characteristics!)
   const [ img, setImg ] = useState<string>(product.img!)
@@ -83,7 +83,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
       name,
       deliveryDays,
       characteristics,
-      price,
+      //price,
       description,
       benefits
     }
@@ -107,7 +107,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
     ProductService.deleteProduct(product._id!)
       .then(response =>{
         /* reponse = 2 its a good request */
-        if(response.data.response == 2){
+        if(response.data.response === 2){
           setToastMessage("El producto se elimino");
           setShowToast(true);
         }else{
@@ -158,10 +158,10 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
                 <u>{product._id}</u>
               </IonText>
           </IonItem>
-          <IonItem>
+          {/* <IonItem>
             <IonLabel>Precio</IonLabel>
             <IonInput value={product.price} onIonChange={e => setPrice(parseInt(e.detail.value!))}  placeholder={product.price?.toString()}></IonInput>
-          </IonItem>
+          </IonItem> */}
           <IonItem>
             <IonLabel>Nombre</IonLabel>
             <IonInput value={name} onIonChange={e => setName(e.detail.value!)} placeholder={product.name}></IonInput>
