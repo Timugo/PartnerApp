@@ -30,8 +30,9 @@ import { ProductService } from "../../services/product.service";
 /* Interfaces */
 import { Product } from "../../interfaces/product.interface";
 /* Capacitor plugins libraries */
-import { Plugins, CameraResultType} from '@capacitor/core';
+import { Plugins, CameraResultType, CameraOptions} from '@capacitor/core';
 import { useHistory } from 'react-router';
+import { CameraPhoto } from '../../interfaces/cameraPhoto.interface';
 //instance of camera capacitor plugin
 const { Camera } = Plugins;
 
@@ -87,11 +88,12 @@ const CreateProduct: React.FC = () => {
       Use de capacitor plugin options here
       https://capacitor.ionicframework.com/docs/apis/camera#api
     */
-    const image = await Camera.getPhoto({
+    let configCamera : CameraOptions = {
       quality: 90,
       allowEditing: false,
-      resultType: CameraResultType.Uri
-    });
+      resultType: CameraResultType.DataUrl,
+    }
+    const image : CameraPhoto = await Camera.getPhoto(configCamera);
     // image.webPath will contain a path that can be set as an image src. 
     // You can access the original file using image.path, which can be 
     // passed to the Filesystem API to read the raw data of the image, 
@@ -101,6 +103,7 @@ const CreateProduct: React.FC = () => {
       //to show Img path
       setImg(image.webPath);
     }
+    console.log(image);
   }
   return (
     <IonPage id="homePage">
