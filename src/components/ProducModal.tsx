@@ -85,7 +85,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
       characteristics,
       //price,
       description,
-      benefits
+      benefits,
+      file : ""
     }
     /* Fetch the api to update the product */
     ProductService.updateProduct(productUpdated)

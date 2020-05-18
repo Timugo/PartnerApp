@@ -47,9 +47,16 @@ interface CustomProps{
 
 /* React Functional Component */
 const Login: React.FC = () => {
-  let productTemp : Product = {} ;
+  // let productTemp : Product = {
+  //   benefits : "",
+  //   characteristics : "",
+  //   deliveryDays : 0,
+  //   description : "",
+  //   file : "",
+  //   name : "",
+  // } ;
   const [products, setProducts] = useState<Product[]>();
-  const [product, setProduct] =useState<Product>(productTemp);
+  const [product, setProduct] =useState<Product>();
   const [showProductModal, setShowProductModal] = useState<boolean>(false);
   const [showToast, setShowToast] = useState<boolean>(false);
   const [messageToast, setMessageToast] = useState<string>("");
@@ -190,7 +197,7 @@ const Login: React.FC = () => {
             */}
           <ProductModal
             onDismissModal={() => setShowProductModal(false)}
-            product={product}
+            product={product!}
           /> 
         </IonModal>    
       </IonContent>

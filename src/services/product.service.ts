@@ -12,8 +12,7 @@ import { LocalStorageService } from './localStorage.service';
 
 export class ProductService {
   
-  static async createProduct(product : Product) {
-    console.log(product);
+  static async createProduct(product : Product,dataEncode : FormData) {
     /* Build the base Url*/
     /* Initlize the Envoriment Class to get url */
     let enviroment = new Enviroment();
@@ -22,14 +21,14 @@ export class ProductService {
     const jwt : any = await LocalStorageService.getItem('jwt');
     let config :any = { 
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${jwt.value}`
       },
     }
     /* Endpoint Url */
     let url : string = `${BASE_URL}/partner/products/create`
     //fetch the api
-    return  await axios.post<CreateProductResponse>(url,product,config);
+    return  await axios.post<CreateProductResponse>(url,dataEncode,config);
     
   }
   /*

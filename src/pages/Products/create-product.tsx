@@ -24,13 +24,13 @@ import {
 } from '@ionic/react';
 import React, { useState } from 'react';
 /* Ionic icons from ionic library  */
-import { closeOutline} from 'ionicons/icons';
+import { closeOutline, image} from 'ionicons/icons';
 /* Services */
 import { ProductService } from "../../services/product.service";
 /* Interfaces */
 import { Product } from "../../interfaces/product.interface";
 /* Capacitor plugins libraries */
-import { Plugins, CameraResultType, CameraOptions} from '@capacitor/core';
+import { Plugins, CameraResultType, CameraOptions, CameraSource} from '@capacitor/core';
 import { useHistory } from 'react-router';
 import { CameraPhoto } from '../../interfaces/cameraPhoto.interface';
 //instance of camera capacitor plugin
@@ -48,8 +48,9 @@ const CreateProduct: React.FC = () => {
   const [ characteristics, setCharasteristics] = useState<string>("");
   const [ benefits, setBenefits ] = useState<string>("");
   const [ img,setImg ] = useState<string>(" ");
+  const [ imgData,setImgData ] = useState<any>();
   const [showToast1, setShowToast1] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("Agregaste un nuevo articulo");
+  const [message, setMessage] = useState<string>("");
   
   /*
   This function handle a submit
@@ -58,26 +59,66 @@ const CreateProduct: React.FC = () => {
   const SendProduct = async () =>{
     let product : Product = {
       description : description,
-      //price : value,
       benefits : benefits,
       characteristics : characteristics,
       deliveryDays : timeArrival,
-      img : img,
-      name : name
+      name : name,
+      file : imgData
     };
+    
+    let productFormData  = new FormData();
+    productFormData.append('description',description);
+    productFormData.append('benefits',benefits);
+    productFormData.append('characteristics',characteristics);
+    productFormData.append('deliveryDays',timeArrival.toString());
+    productFormData.append('name',name);
+    productFormData.append('file',imgData,`product_${name}`);
+    productFormData.append('phone','123456121');//need to save temporal fix phone in the phone
 
-    ProductService.createProduct(product)
+    ProductService.createProduct(product,productFormData)
       .then((response )=>{
         if(response.status === 200){
-          setShowToast1(true);
-          history.push("/home");
+          if(response.data.response ===2){
+            setMessage("Genial!!, se creo el producto")
+            setShowToast1(true);
+            history.push("/home");
+          }else{
+            setMessage("Error al crear el producto, intenta mas tarde")
+            setShowToast1(true);
+          }
         }
       })
       .catch(err =>{
         console.log(err);
+        setMessage("Error al crear el producto, intenta mas tarde")
+        setShowToast1(true);
+        
       });
 
 
+  }
+  const covertFile = async (b64Data : string, contentType : string, sliceSize : number)=>{
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+  var blob = new Blob(byteArrays, {type: contentType});
+  return blob;
   }
   /*
     This function Use the capacitor camera plugin
@@ -91,7 +132,7 @@ const CreateProduct: React.FC = () => {
     let configCamera : CameraOptions = {
       quality: 90,
       allowEditing: false,
-      resultType: CameraResultType.DataUrl,
+      resultType: CameraResultType.Base64, 
     }
     const image : CameraPhoto = await Camera.getPhoto(configCamera);
     // image.webPath will contain a path that can be set as an image src. 
@@ -102,8 +143,16 @@ const CreateProduct: React.FC = () => {
       setMessage(image.webPath);
       //to show Img path
       setImg(image.webPath);
+      setImgData(image.webPath);
     }
-    console.log(image);
+    if(image.base64String){
+      let dat = await covertFile(image.base64String,`image/${image.format}`,512);
+      console.log(dat);
+      setImgData(dat);
+       
+    }
+    console.log("informacion de la imgagen: ",image);
+    //console.log(buffer);
   }
   return (
     <IonPage id="homePage">
