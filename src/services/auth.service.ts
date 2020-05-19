@@ -10,16 +10,16 @@ import { LocalStorageService } from "../services/localStorage.service";
 
 export class LoginServices {
   
-  static async login(user : string , pass:string) {
+  static async login(phone : string , pass:string) {
     /* Initlize the Envoriment Class to get url */
     let enviroment = new Enviroment();
     /* Save Phone in local storage */
-    await LocalStorageService.saveItem('phone',user);
+    await LocalStorageService.saveItem('phone',phone);
     /* get url from envoriment service */
     const BASE_URL = await enviroment.getUrl();
     /* Body of request */
-    let data :any ={
-      phone: user,
+    let body :any ={
+      phone,
       password : pass
     }
     /* Config of request */
@@ -32,7 +32,7 @@ export class LoginServices {
     let url : string = `${BASE_URL}/auth/loginPartner`;
 
     //fetch the api
-    return  await axios.post<LoginResponse>(url,data,config);
+    return  await axios.post<LoginResponse>(url,body,config);
     
   }      
   
