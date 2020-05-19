@@ -42,6 +42,7 @@ const Login: React.FC = () => {
 			//Make Request to the static login service
 			await LoginServices.login(user,password)
 				.then(res=>{
+						
 						/* Save the JWT in the local storage*/
 						LocalStorageService.saveItem("jwt",res.data.content.token)
 							.then(res =>{
@@ -66,70 +67,8 @@ const Login: React.FC = () => {
       			<IonText>
       				<h1>Hola <br></br> De Nuevo</h1>
       			</IonText>
-
-      			<IonGrid>
-      				<IonRow class="ion-justify-content-start">
-      					<IonCol size="3">
-      						<div>
-      							1 of 2
-      						</div>
-      					</IonCol>
-      					<IonCol size="3">
-      						<div>
-      							2 of 2
-      						</div>
-      					</IonCol>
-      				</IonRow>
-      				<IonRow class="ion-justify-content-center">
-      					<IonCol size="3">
-      						<div>
-      							1 of 2
-      						</div>
-      					</IonCol>
-      					<IonCol size="3">
-      						<div>
-      							2 of 2
-      						</div>
-      					</IonCol>
-      				</IonRow>
-      				<IonRow class="ion-justify-content-end">
-      					<IonCol size="3">
-      						<div>
-      							1 of 2
-      						</div>
-      					</IonCol>
-      					<IonCol size="3">
-      						<div>
-      							2 of 2
-      						</div>
-      					</IonCol>
-      				</IonRow>
-      				<IonRow class="ion-justify-content-around">
-      					<IonCol size="3">
-      						<div>
-      							1 of 2
-      						</div>
-      					</IonCol>
-      					<IonCol size="3">
-      						<div>
-      							2 of 2
-      						</div>
-      					</IonCol>
-      				</IonRow>
-      				<IonRow class="ion-justify-content-between">
-      					<IonCol size="3">
-      						<div>
-      							1 of 2
-      						</div>
-      					</IonCol>
-      					<IonCol size="3">
-      						<div>
-      							2 of 2
-      						</div>
-      					</IonCol>
-      				</IonRow>
-      			</IonGrid>
       		</div>
+					
       		<IonGrid>
       			<IonRow>
       				<IonCol>
@@ -182,19 +121,6 @@ const Login: React.FC = () => {
       					</IonCol>
       				</IonRow>
 
-      			</IonGrid>
-      		</div>
-					
-      		<div className="bottomText">
-      			<IonGrid>
-      				<IonRow class="ion-justify-content-around">
-      					<IonCol offset="1">
-      						<div onClick={register}><b><u>Registrarse</u></b></div>
-      					</IonCol>
-      					<IonCol offset="1">
-      						<div><b><u>Olvide la Contraseña</u></b></div>
-      					</IonCol>
-      				</IonRow>
       			</IonGrid>
       		</div>
 

@@ -118,7 +118,7 @@ const Login: React.FC = () => {
       <IonHeader className="ion-no-border" translucent={true}>
         <IonToolbar>
           <IonButtons>
-            <IonMenuButton menu="sideMenu" ></IonMenuButton>
+            <IonMenuButton ></IonMenuButton>
           </IonButtons>
           <IonTitle>Pets</IonTitle>
         </IonToolbar>
