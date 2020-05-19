@@ -24,8 +24,13 @@ import {
   useIonViewDidEnter,
   IonModal,
   IonToast,
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonLabel,
+  IonBadge,
 } from '@ionic/react';
-import { add} from 'ionicons/icons';
+import { add, calendar, personCircle, informationCircle, map} from 'ionicons/icons';
 import React, { useState, useRef } from 'react';
 import { RefresherEventDetail } from '@ionic/core';
 /* Page Css Styles */
@@ -134,6 +139,7 @@ const Login: React.FC = () => {
           </IonRefresherContent>
         </IonRefresher>
 
+        
         <IonGrid>
           <IonRow className="ion-margin ion-align-items-end ion-justify-content-between">
             <IonCol>

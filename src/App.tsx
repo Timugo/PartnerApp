@@ -10,6 +10,7 @@ import Login2 from './pages/Login/Login2'
 import SideMenu from './components/SideMenu';
 import Home from "./pages/Home/Home";
 import NewProduct from "./pages/Products/create-product";
+import MainTabs from "./pages/Home/MainTabs";
 
 
 
@@ -42,6 +43,7 @@ const App: React.FC = () => (
       <SideMenu />
       {/* Content page of the all entire app */}
       <IonRouterOutlet id="main">
+        <Route path="/tabs" component={MainTabs} exact={true} />
         <Route path="/slides" component={Slides} exact={true} />
         {/* Principal Page with tabs */}
         <Route path="/login" component={Login} exact={true} />
