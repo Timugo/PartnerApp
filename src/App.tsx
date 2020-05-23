@@ -32,6 +32,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.scss';
+import CreatePresentation from './pages/Products/create-presentation';
 
 
 
@@ -50,6 +51,7 @@ const App: React.FC = () => (
         <Route path="/login2" component={Login2} exact={true} />
         <Route path="/home" component={Home} exact={true} />
         <Route path="/products/create" component={NewProduct} exact={true} />
+        <Route path="/products/Presentation" component={CreatePresentation} exact={true} />
         {/*If User is logged then, redirect to home, if not redirect to slides tutorial*/  }
         <Route exact path="/" component={HomeOrLogin}/>
         {/* <Route exact path="/" render={() => <Redirect to="/home" />} /> */}

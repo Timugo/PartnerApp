@@ -29,7 +29,7 @@ import { closeOutline, image } from "ionicons/icons";
 /* Services */
 import { ProductService } from "../../services/product.service";
 /* Interfaces */
-import { Product } from "../../interfaces/product.interface";
+import { Product, Presentation } from "../../interfaces/product.interface";
 /* Capacitor plugins libraries */
 import {
   Plugins,
@@ -42,17 +42,27 @@ import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";
 //instance of camera capacitor plugin
 const { Camera } = Plugins;
 
-const CreateProduct: React.FC = () => {
+const CreatePresentation: React.FC = () => {
   const history = useHistory();
   /* variables used in the page */
-  const [description, setDescription] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
   //const [ value, setValue ] = useState<number>(1000);
   const [timeArrival, setTimeArrival] = useState<number>(0);
   const [name, setName] = useState<string>("");
-  const [characteristics, setCharasteristics] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [size, setSize] = useState<string>("");
+  const [volumex, setVolumex] = useState<string>("");
+  const [volumey, setVolumey] = useState<string>("");
+  const [volumez, setVolumez] = useState<string>("");
+  const [weight, setWeight] = useState<string>("");
+  const [price, setPrice] = useState<number>(0);
+
+
   const [benefits, setBenefits] = useState<string>("");
   const [img, setImg] = useState<string>(" ");
   const [imgData, setImgData] = useState<any>();
+
+  
   const [showToast1, setShowToast1] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [showAlert1, setShowAlert1] = useState(false);
@@ -62,41 +72,43 @@ const CreateProduct: React.FC = () => {
   of a new product
   */
   const SendProduct = async () => {
-    let product: Product = {
+    let presentation: Presentation = {
+      status: status,
+      sizes: size,
       description: description,
-      benefits: benefits,
-      characteristics: characteristics,
-      deliveryDays: timeArrival,
-      name: name,
-      file: imgData,
+      volume: volumex+'x'+volumey+'x'+volumez,
+      weigth: weight,
+      urlImg: imgData,
+      price:price
     };
 
-    let productFormData = new FormData();
-    productFormData.append("description", description);
-    productFormData.append("benefits", benefits);
-    productFormData.append("characteristics", characteristics);
-    productFormData.append("deliveryDays", timeArrival.toString());
-    productFormData.append("name", name);
-    productFormData.append("file", imgData, `product_${name}`);
-    productFormData.append("phone", "123456121"); //need to save temporal fix phone in the phone
+    let presentationFormData = new FormData();
+    presentationFormData.append("status", status);
+    presentationFormData.append("description", description);
+    presentationFormData.append("sizes", size);
+    presentationFormData.append("weigth", weight);
+    presentationFormData.append("urlImg", imgData, `product_${name}`);
+    presentationFormData.append("price",price.toString());
+    presentationFormData.append("phone", "123456121"); //need to save temporal fix phone in the phone
 
-    ProductService.createProduct(product, productFormData)
+    ProductService.createPresentation(presentation, presentationFormData)
       .then((response) => {
         if (response.status === 200) {
           if (response.data.response === 2) {
-            setMessage("Genial!!, se creo el producto");
+            setMessage("Genial!!, se creo la prsentación");
             setShowToast1(true);
             setShowAlert1(true);
-           
+           // history.push("/home");
           } else {
-            setMessage("Error al crear el producto, intenta mas tarde");
+            setMessage("Error al crear la presentación , intenta mas tarde");
             setShowToast1(true);
+            
           }
         }
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Error al crear el producto, intenta mas tarde");
+        setMessage("Error al crear al crear la presentación, intenta mas tarde");
         setShowToast1(true);
       });
   };
@@ -169,7 +181,7 @@ const CreateProduct: React.FC = () => {
       {/* Page Header */}
       <IonHeader className="ion-no-border">
         <IonToolbar>
-          <IonTitle>Nuevo Producto</IonTitle>
+          <IonTitle>Nueva Presentación</IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -187,7 +199,7 @@ const CreateProduct: React.FC = () => {
           isOpen={showAlert1}
           onDidDismiss={() => setShowAlert1(false)}
           cssClass="my-custom-class"
-          header={"Crear prsentación"}
+          header={"Crear presentación"}
           message={"Desea agregar una presentación para este producto?"}
           buttons={[
             {
@@ -195,13 +207,13 @@ const CreateProduct: React.FC = () => {
               role: "cancel",
               cssClass: "secondary",
               handler: (blah) => {
-                 history.push("/home");
+                console.log("Confirm Cancel: blah");
               },
             },
             {
               text: "Si",
               handler: () => {
-                 history.push("/products/Presentation");
+                console.log("Confirm Okay");
               },
             },
           ]}
@@ -212,10 +224,10 @@ const CreateProduct: React.FC = () => {
           {/* First Row */}
           <IonRow>
             <IonCol offset="1">
-              <div className="ion-characteristics-start">
+              <div className="ion-description-start">
                 <h4>Crear Producto</h4>
                 <IonText color="medium">
-                  Añade la informacion del producto que quieres crear
+                  Añade la informacion de la presentación que quieres crear
                 </IonText>
               </div>
             </IonCol>
@@ -250,14 +262,14 @@ const CreateProduct: React.FC = () => {
             </IonCol> */}
             <IonCol size="6">
               <IonItem>
-                <IonLabel position="stacked">Tiempo de entrega</IonLabel>
+                <IonLabel position="stacked">Precio</IonLabel>
                 <IonInput
                   type="number"
                   className="inputs"
                   autofocus={true}
-                  value={timeArrival}
-                  placeholder="Dias"
-                  onIonChange={(e) => setTimeArrival(parseInt(e.detail.value!))}
+                  value={price}
+                  placeholder="pesos"
+                  onIonChange={(e) => setPrice(parseInt(e.detail.value!))}
                 ></IonInput>
               </IonItem>
             </IonCol>
@@ -267,48 +279,90 @@ const CreateProduct: React.FC = () => {
             <IonCol>
               <IonList>
                 <IonItem>
-                  <IonLabel position="stacked">Nombre</IonLabel>
+                  <IonLabel position="stacked">Peso</IonLabel>
                   <IonInput
                     className="inputs"
                     autofocus={true}
-                    value={name}
-                    placeholder="Nombre del producto"
-                    onIonChange={(e) => setName(e.detail.value!)}
+                    value={weight}
+                    placeholder="Kg"
+                    onIonChange={(e) => setWeight(e.detail.value!)}
                   ></IonInput>
                 </IonItem>
                 <IonItem>
-                  <IonLabel position="stacked">Descripcion</IonLabel>
+                  <IonLabel position="stacked">Tamaño</IonLabel>
                   <IonInput
                     className="inputs"
-                    value={description}
-                    placeholder="Descripcion del Producto"
-                    onIonChange={(e) => setDescription(e.detail.value!)}
+                    autofocus={true}
+                    value={size}
+                    placeholder="ejemplo(20x20)"
+                    onIonChange={(e) => setSize(e.detail.value!)}
                   ></IonInput>
                 </IonItem>
+
+                <IonRow>
+                    <IonCol>
+                    <IonItem>
+                  <IonLabel position="stacked">Ancho</IonLabel>
+                  <IonInput
+                    className="inputs"
+                    value={volumex}
+                    placeholder="cm"
+                    onIonChange={(e) => setVolumex
+                    (e.detail.value!)}
+                  ></IonInput>
+                </IonItem>
+                    </IonCol>
+                    x
+                    <IonCol>
+                    <IonItem>
+                  <IonLabel position="stacked">Alto</IonLabel>
+                  <IonInput
+                    className="inputs"
+                    value={volumey}
+                    placeholder="cm"
+                    onIonChange={(e) => setVolumey
+                    (e.detail.value!)}
+                  ></IonInput>
+                </IonItem>
+                    </IonCol>
+                    x <IonCol>
+                    <IonItem>
+                  <IonLabel position="stacked">Profundidad</IonLabel>
+                  <IonInput
+                    className="inputs"
+                    value={volumez}
+                    placeholder="cm"
+                    onIonChange={(e) => setVolumez
+                    (e.detail.value!)}
+                  ></IonInput>
+                </IonItem>
+                    </IonCol>
+
+                </IonRow>
                 <IonItem>
-                  <IonLabel position="stacked">Caracteriticas</IonLabel>
+                  <IonLabel position="stacked">Descripción</IonLabel>
                   <IonTextarea
                     className="inputs"
-                    placeholder="Caracteristicas de tu producto (maximo 400 palabras)"
+                    placeholder="Descripvión de la pressentación (maximo 400 palabras)"
                     autoGrow={true}
                     maxlength={400}
-                    value={characteristics}
+                    value={description}
                     rows={6}
                     cols={20}
-                    onIonChange={(e) => setCharasteristics(e.detail.value!)}
+                    onIonChange={(e) => setDescription(e.detail.value!)}
                   ></IonTextarea>
                 </IonItem>
                 <IonItem>
-                  <IonLabel position="stacked">Beneficios</IonLabel>
+                  <IonLabel position="stacked">Estado</IonLabel>
                   <IonTextarea
                     className="inputs"
-                    placeholder="Ejemplo : Aporta nutrientes escenciales ....... (opcional)"
+                    placeholder="(Disponible,NoDisponible)"
                     autoGrow={true}
                     maxlength={400}
-                    value={benefits}
+                    value={status}
                     rows={6}
                     cols={20}
-                    onIonChange={(e) => setBenefits(e.detail.value!)}
+                    onIonChange={(e) => setStatus(e.detail.value!)}
                   ></IonTextarea>
                 </IonItem>
               </IonList>
@@ -344,4 +398,4 @@ const CreateProduct: React.FC = () => {
   );
 };
 
-export default CreateProduct;
+export default CreatePresentation;

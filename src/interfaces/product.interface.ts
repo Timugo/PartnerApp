@@ -9,3 +9,16 @@ export interface Product {
   name : string
   status? : string
 }
+
+export interface Presentation {
+  // _id:         string;
+  // reference:   string;
+  status:      string;
+  sizes:       string;
+  volume:      string;
+  weigth:      string;
+  description: string;
+  price:       number;
+  // units:       number;
+  urlImg:      string;
+}

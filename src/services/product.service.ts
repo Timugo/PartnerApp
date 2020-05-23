@@ -3,7 +3,7 @@ import axios from 'axios';
 /* Enviroments  */
 import { Enviroment } from "../enviroments/enviroments";
 /* Interfaces */
-import { Product } from "../interfaces/product.interface";
+import { Product, Presentation } from "../interfaces/product.interface";
 import { CreateProductResponse, GetProductsReponse, UpdateProductReponse, GenericResponse } from "../interfaces/responses.interface";
 /* Services */
 import { LocalStorageService } from './localStorage.service';
@@ -98,6 +98,26 @@ export class ProductService {
   let url : string = `${BASE_URL}/partner/products/delete?idProduct=${idProduct}`
   //fetch the api
   return  await axios.delete<GenericResponse>(url,config);
+  
+}
+
+static async createPresentation(presentation : Presentation,dataEncode : FormData) {
+  /* Build the base Url*/
+  /* Initlize the Envoriment Class to get url */
+  let enviroment = new Enviroment();
+  /* get url from envoriment service */
+  const BASE_URL = await enviroment.getUrl();
+  const jwt : any = await LocalStorageService.getItem('jwt');
+  let config :any = { 
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${jwt.value}`
+    },
+  }
+  /* Endpoint Url */
+  let url : string = `${BASE_URL}/partner/products/create`
+  //fetch the api
+  return  await axios.post<CreateProductResponse>(url,dataEncode,config);
   
 }
 
