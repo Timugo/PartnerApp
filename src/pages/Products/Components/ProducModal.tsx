@@ -1,5 +1,5 @@
 /* React importations */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   IonHeader,
   IonToolbar,
@@ -21,15 +21,17 @@ import {
   IonSelect,
   IonSelectOption,
   IonTextarea,
+  IonModal,
 } from '@ionic/react';
-import { } from 'ionicons/icons';
+import { codeWorking } from 'ionicons/icons';
 /* Css component styles */
 import './ProductModal.scss'
-import { Product } from '../interfaces/product.interface';
+import { Product, Presentation } from '../../../interfaces/product.interface';
 /* Capacitor Plugins */
 import { Plugins } from '@capacitor/core';
-import { ProductService } from '../services/product.service';
-
+import { ProductService } from '../../../services/product.service';
+/* Components */
+import PresentationModal from "./PresentationModal";
 const { Clipboard } = Plugins;
 
 /*  Function Properties */
@@ -51,12 +53,18 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
   /* Product characteristics */
   const [ description, setDescription ]  = useState<string>(product.description!)
   //const [ price, setPrice ] = useState<number>(product.price!)
+  const [ idProduct, setIdProduct ]  = useState<string>(product._id!)
   const [ benefits, setBenefits ]  = useState<string>(product.benefits!)
   const [ characteristics, setCharacteristics ] = useState<string>(product.characteristics!)
   const [ img, setImg ] = useState<string>(product.img!)
   const [ deliveryDays, setDeliveryDays ] = useState<number>(product.deliveryDays!)
   const [ name, setName ] = useState<string>(product.name!)
   const [ status, setStatus ] = useState<string>(product.status!)
+  const [ currenProduct, setCurrentProduct ] = useState<Product>(product);
+
+  const [ selectPresentation, setSelectPresentation] = useState<Presentation>(product.presentations[0]);
+  const [ showPresentationModal, setShowPresentationModal] = useState<boolean>(false);
+
   /*
     This Function use the clipboard plugin
     from capacitor to copy a specific text
@@ -78,16 +86,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
   */
   const UpdateProduct = () =>{
     /* Request to the server */
-    let productUpdated : Product ={
-      status,
-      name,
-      deliveryDays,
-      characteristics,
-      //price,
-      description,
-      benefits,
-      file : ""
-    }
+    let productUpdated : Product = currenProduct;
     /* Fetch the api to update the product */
     ProductService.updateProduct(productUpdated)
       .then(response =>{
@@ -95,6 +94,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
         setShowToast(true);
       })
       .catch(err=>{
+        console.log(err);
         setToastMessage("Ups, ocurrio un error, intenta mas tarde");
         setShowToast(true);
       });
@@ -121,10 +121,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
         setShowToast(true);
       });
   }
+  const OpenModalPresentation = (presentation : any)=>{
+    console.log(presentation);
+  }
 
   return (
     /* Used the <> because only can return a hole component  */
-    <>
+    < >
       <IonHeader translucent={true}>
         <IonToolbar>
           <IonButtons slot="start">
@@ -142,15 +145,43 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
         <IonGrid>
           <IonRow>
             <IonCol size="6" offset="3">
-              <img src="https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000" alt={product.description}/>
+              <img src={product.img} alt={product.description}/>
             </IonCol>
           </IonRow>
         
+
+          <IonRow>
+            <IonCol>
+              <IonText color="medium">
+                <h3>Toca una presentacion para editarla o verla</h3>
+              </IonText>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+          {
+            product.presentations.map((presentation,index)=>{
+              return (
+                <IonCol size="3" key={index}>
+                  <img
+                    src={presentation.urlImg}
+                    onClick={() => {
+                      /* If click on the presentation then redirect to prsentation modal */
+                      setSelectPresentation(presentation);
+                      setShowPresentationModal(true);
+                    }}
+                  ></img>
+                </IonCol>
+              );
+            })
+          }
+          </IonRow>
         </IonGrid>
+        
+          
         <IonList>
           <IonListHeader>
             <IonLabel>
-              Editar la Informacion
+              Editar la Informacion del Producto
             </IonLabel>
           </IonListHeader>
           <IonItem>
@@ -159,13 +190,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
                 <u>{product._id}</u>
               </IonText>
           </IonItem>
-          {/* <IonItem>
-            <IonLabel>Precio</IonLabel>
-            <IonInput value={product.price} onIonChange={e => setPrice(parseInt(e.detail.value!))}  placeholder={product.price?.toString()}></IonInput>
-          </IonItem> */}
           <IonItem>
             <IonLabel>Nombre</IonLabel>
-            <IonInput value={name} onIonChange={e => setName(e.detail.value!)} placeholder={product.name}></IonInput>
+            <IonInput value={name} onIonChange={(e )=>{ product.name = e.detail.value! /*setName(e.detail.value!)*/}} placeholder={product.name}></IonInput>
           </IonItem>
           
           <IonItem>
@@ -239,6 +266,23 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
             }
           ]}
         />
+        <IonModal
+          isOpen={showPresentationModal}
+          onDidDismiss={() => setShowPresentationModal(false)}
+          swipeToClose={true}
+          //presentingElement={pageRef.current!} //ios 13 cards modal style
+          //cssClass="Product"
+          >
+            {/*
+              To see wich properties need to pass to modal 
+              see the properties in ProductModal component
+            */}
+          <PresentationModal
+            onDismissModal={() => setShowPresentationModal(false)}
+            presentation={selectPresentation!}
+            idProduct={product._id}
+          /> 
+        </IonModal>    
       
       </IonContent>
       <IonFooter>

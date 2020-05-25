@@ -40,6 +40,7 @@ import {
 import { useHistory, Redirect } from "react-router";
 import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";
 import CreatePresentation from "./create-presentation";
+import { FileConverter } from "./Services/fileConverter.service";
 //instance of camera capacitor plugin
 const { Camera } = Plugins;
 
@@ -56,7 +57,6 @@ const CreateProduct: React.FC = () => {
   const [imgData, setImgData] = useState<any>(null);
   const [showToast1, setShowToast1] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
-  const [showAlert1, setShowAlert1] = useState(false);
 
   // id_product
   const [idProduct, setIdProduct] = useState<string>("idpapapap");
@@ -66,14 +66,14 @@ const CreateProduct: React.FC = () => {
   of a new product
   */
   const SendProduct = async () => {
-    let product: Product = {
-      description: description,
-      benefits: benefits,
-      characteristics: characteristics,
-      deliveryDays: timeArrival,
-      name: name,
-      file: imgData,
-    };
+    // let product: Product = {
+    //   description: description,
+    //   benefits: benefits,
+    //   characteristics: characteristics,
+    //   deliveryDays: timeArrival,
+    //   name: name,
+    //   file: imgData,
+    // };
 
     let productFormData = new FormData();
     productFormData.append("description", description);
@@ -90,8 +90,13 @@ const CreateProduct: React.FC = () => {
           if (response.data.response === 2) {
             setMessage("Genial!!, se creo el producto");
             setShowToast1(true);
-            setShowAlert1(true);
-            setIdProduct(response.data.content.product["_id"]);
+            //setIdProduct(response.data.content.product["_id"]);
+            history.push({
+              pathname: "/products/Presentation",
+              state: {
+                idProduct: response.data.content.product["_id"],
+              },
+            });
           } else {
             setMessage("Error al crear el producto, intenta mas tarde");
             setShowToast1(true);
@@ -103,36 +108,9 @@ const CreateProduct: React.FC = () => {
         console.log(err);
         setMessage("Error al crear el producto, intenta mas tarde");
         setShowToast1(true);
-        setShowAlert1(true);
       });
   };
-  const covertFile = async (
-    b64Data: string,
-    contentType: string,
-    sliceSize: number
-  ) => {
-    contentType = contentType || "";
-    sliceSize = sliceSize || 512;
-
-    var byteCharacters = atob(b64Data);
-    var byteArrays = [];
-
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      var byteNumbers = new Array(slice.length);
-      for (var i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      var byteArray = new Uint8Array(byteNumbers);
-
-      byteArrays.push(byteArray);
-    }
-
-    var blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-  };
+  
   /*
     This function Use the capacitor camera plugin
     to make a photo or select from gallery 
@@ -152,24 +130,17 @@ const CreateProduct: React.FC = () => {
     // You can access the original file using image.path, which can be
     // passed to the Filesystem API to read the raw data of the image,
     // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-    if (image.webPath) {
-      setMessage(image.webPath);
-      //to show Img path
-      setImg(image.webPath);
-      setImgData(image.webPath);
-    }
+    // if (image.webPath) {
+    //   setMessage(image.webPath);
+    //   //to show Img path
+    //   setImg(image.webPath);
+    //   setImgData(image.webPath);
+    // }
     if (image.base64String) {
-      let dat = await covertFile(
-        image.base64String,
-        `image/${image.format}`,
-        512
-      );
+      let dat = await FileConverter.convertFile(image.base64String,`image/${image.format}`,512);
       console.log(dat);
       setImgData(dat);
     }
-    console.log("informacion de la imgagen: ", image);
-
-    //console.log(buffer);
   };
 
   return (
@@ -189,35 +160,6 @@ const CreateProduct: React.FC = () => {
           onDidDismiss={() => setShowToast1(false)}
           message={message}
           duration={500}
-        />
-        {/* Alert for add presentation product */}
-        <IonAlert
-          isOpen={showAlert1}
-          onDidDismiss={() => setShowAlert1(false)}
-          cssClass="my-custom-class"
-          header={"Crear prsentación"}
-          message={"Desea agregar una presentación para este producto?"}
-          buttons={[
-            {
-              text: "Despues",
-              role: "cancel",
-              cssClass: "secondary",
-              handler: (blah) => {
-                history.push("/home");
-              },
-            },
-            {
-              text: "Si",
-              handler: () => {
-                history.push({
-                  pathname: "/products/Presentation",
-                  state: {
-                    idProduct: idProduct,
-                  },
-                });
-              },
-            },
-          ]}
         />
 
         {/* define ionic grid */}
@@ -247,20 +189,6 @@ const CreateProduct: React.FC = () => {
           </IonRow>
           {/* Row 3  */}
           <IonRow>
-            {/* <IonCol size="6">
-              <IonItem>
-                <IonLabel position="stacked">Precio</IonLabel>
-                <IonInput 
-                  min="1000"
-                  type="number"
-                  className="inputs"
-                  autofocus={true}
-                  value={value}
-                  placeholder="En pesos"
-                  onIonChange={e => setValue(parseInt(e.detail.value!))}>
-                </IonInput>
-              </IonItem>
-            </IonCol> */}
             <IonCol size="6">
               <IonItem>
                 <IonLabel position="stacked">Tiempo de entrega</IonLabel>

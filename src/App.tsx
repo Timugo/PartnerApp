@@ -47,7 +47,7 @@ const App: React.FC = () => (
         {/* <Route path="/tabs/orders" component={MainTabs} exact={true} />
         <Route path="/tabs/products" component={MainTabs} exact={true} /> */}
 
-        <Route path="/slides" component={Slides}/>
+        <Route path="/slides" component={Slides} exact/>
         {/* Principal Page with tabs */}
         <Route path="/login" component={Login}/>
         <Route path="/home" component={Home}/>

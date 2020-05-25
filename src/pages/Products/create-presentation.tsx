@@ -40,6 +40,7 @@ import {
 import { useHistory } from "react-router";
 import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";
 import { CreateProductResponse } from "../../interfaces/responses.interface";
+import { FileConverter } from "./Services/fileConverter.service";
 
 //instance of camera capacitor plugin
 const { Camera } = Plugins;
@@ -51,10 +52,10 @@ interface PageProps {
 /* Union of all properties to inject into component */
 type ProductModalProps = OwnProps & PageProps;
 const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
+  /* Used to redirect pages */
   const history = useHistory();
   /* variables used in the page */
   const [status, setStatus] = useState<string>("");
-  //const [ value, setValue ] = useState<number>(1000);
   const [stock, setStock] = useState<number>(0);
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -65,11 +66,10 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
   const [weight, setWeight] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [reference, setReference] = useState<string>("");
-
-  const [benefits, setBenefits] = useState<string>("");
   const [img, setImg] = useState<string>(" ");
   const [imgData, setImgData] = useState<any>();
 
+  /* Ui Utils */
   const [showToast1, setShowToast1] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [showAlert1, setShowAlert1] = useState(false);
@@ -78,15 +78,12 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
   This function handle a submit
   of a new product
   */
-  const SendProduct = async () => {
+  const SendPresentation = async () => {
     let presentationFormData = new FormData();
     presentationFormData.append("reference", reference);
     presentationFormData.append("status", status);
     presentationFormData.append("description", description);
-    presentationFormData.append(
-      "sizes",
-      volumex + "x" + volumey + "x" + volumez
-    );
+    presentationFormData.append("sizes",volumex + "x" + volumey + "x" + volumez);
     presentationFormData.append("volume", volume);
     presentationFormData.append("weigth", weight);
     presentationFormData.append("urlImg", imgData, `product_${name}`);
@@ -115,33 +112,6 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
         setShowToast1(true);
       });
   };
-  const covertFile = async (
-    b64Data: string,
-    contentType: string,
-    sliceSize: number
-  ) => {
-    contentType = contentType || "";
-    sliceSize = sliceSize || 512;
-
-    var byteCharacters = atob(b64Data);
-    var byteArrays = [];
-
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      var byteNumbers = new Array(slice.length);
-      for (var i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      var byteArray = new Uint8Array(byteNumbers);
-
-      byteArrays.push(byteArray);
-    }
-
-    var blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-  };
   /*
     This function Use the capacitor camera plugin
     to make a photo or select from gallery 
@@ -168,11 +138,7 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
       setImgData(image.webPath);
     }
     if (image.base64String) {
-      let dat = await covertFile(
-        image.base64String,
-        `image/${image.format}`,
-        512
-      );
+      let dat = await FileConverter.convertFile(image.base64String,`image/${image.format}`,512);
       console.log(dat);
       setImgData(dat);
     }
@@ -398,8 +364,8 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
               </IonButton>
             </IonCol>
             <IonCol size="6">
-              <IonButton expand="block" onClick={SendProduct}>
-                Crear
+              <IonButton expand="block" onClick={SendPresentation}>
+                Agregar
               </IonButton>
             </IonCol>
           </IonRow>

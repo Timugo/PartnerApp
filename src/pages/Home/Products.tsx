@@ -36,7 +36,7 @@ import { Product } from '../../interfaces/product.interface';
 
 
 /* Components */
-import ProductModal from '../../components/ProducModal';
+import ProductModal from '../Products/Components/ProducModal';
 
 interface CustomProps{
   fieldName : string
