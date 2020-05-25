@@ -107,7 +107,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
     ProductService.deleteProduct(product._id!)
       .then(response =>{
         /* reponse = 2 its a good request */
-        if(response.data.response == 2){
+        if(response.data.response === 2){
           setToastMessage("El producto se elimino");
           setShowToast(true);
         }else{
