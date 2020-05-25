@@ -39,30 +39,37 @@ import {
 } from "@capacitor/core";
 import { useHistory } from "react-router";
 import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";
+import { CreateProductResponse } from "../../interfaces/responses.interface";
+
 //instance of camera capacitor plugin
 const { Camera } = Plugins;
-
-const CreatePresentation: React.FC = () => {
+interface OwnProps {}
+/* Variables props */
+interface PageProps {
+  idProduct?: string;
+}
+/* Union of all properties to inject into component */
+type ProductModalProps = OwnProps & PageProps;
+const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
   const history = useHistory();
   /* variables used in the page */
   const [status, setStatus] = useState<string>("");
   //const [ value, setValue ] = useState<number>(1000);
-  const [timeArrival, setTimeArrival] = useState<number>(0);
+  const [stock, setStock] = useState<number>(0);
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [size, setSize] = useState<string>("");
+  const [volume, setVolumen] = useState<string>("");
   const [volumex, setVolumex] = useState<string>("");
   const [volumey, setVolumey] = useState<string>("");
   const [volumez, setVolumez] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
-
+  const [reference, setReference] = useState<string>("");
 
   const [benefits, setBenefits] = useState<string>("");
   const [img, setImg] = useState<string>(" ");
   const [imgData, setImgData] = useState<any>();
 
-  
   const [showToast1, setShowToast1] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [showAlert1, setShowAlert1] = useState(false);
@@ -72,43 +79,39 @@ const CreatePresentation: React.FC = () => {
   of a new product
   */
   const SendProduct = async () => {
-    let presentation: Presentation = {
-      status: status,
-      sizes: size,
-      description: description,
-      volume: volumex+'x'+volumey+'x'+volumez,
-      weigth: weight,
-      urlImg: imgData,
-      price:price
-    };
-
     let presentationFormData = new FormData();
+    presentationFormData.append("reference", reference);
     presentationFormData.append("status", status);
     presentationFormData.append("description", description);
-    presentationFormData.append("sizes", size);
+    presentationFormData.append(
+      "sizes",
+      volumex + "x" + volumey + "x" + volumez
+    );
+    presentationFormData.append("volume", volume);
     presentationFormData.append("weigth", weight);
     presentationFormData.append("urlImg", imgData, `product_${name}`);
-    presentationFormData.append("price",price.toString());
-    presentationFormData.append("phone", "123456121"); //need to save temporal fix phone in the phone
+    presentationFormData.append("price", price.toString());
+    presentationFormData.append("stock", stock.toString());
 
-    ProductService.createPresentation(presentation, presentationFormData)
+    ProductService.createPresentation(presentationFormData,idProduct!)
       .then((response) => {
         if (response.status === 200) {
           if (response.data.response === 2) {
             setMessage("Genial!!, se creo la prsentación");
             setShowToast1(true);
             setShowAlert1(true);
-           // history.push("/home");
+            // history.push("/home");
           } else {
             setMessage("Error al crear la presentación , intenta mas tarde");
             setShowToast1(true);
-            
           }
         }
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Error al crear al crear la presentación, intenta mas tarde");
+        setMessage(
+          "Error al crear al crear la presentación, intenta mas tarde"
+        );
         setShowToast1(true);
       });
   };
@@ -200,14 +203,14 @@ const CreatePresentation: React.FC = () => {
           onDidDismiss={() => setShowAlert1(false)}
           cssClass="my-custom-class"
           header={"Crear presentación"}
-          message={"Desea agregar una presentación para este producto?"}
+          message={"Desea agregarcotracpresentación para este producto?"}
           buttons={[
             {
               text: "Despues",
               role: "cancel",
               cssClass: "secondary",
               handler: (blah) => {
-                console.log("Confirm Cancel: blah");
+                
               },
             },
             {
@@ -246,21 +249,20 @@ const CreatePresentation: React.FC = () => {
           </IonRow>
           {/* Row 3  */}
           <IonRow>
-            {/* <IonCol size="6">
+            <IonCol size="4">
               <IonItem>
-                <IonLabel position="stacked">Precio</IonLabel>
-                <IonInput 
-                  min="1000"
-                  type="number"
+                <IonLabel position="stacked">Referencia</IonLabel>
+                <IonInput
+                  type="text"
                   className="inputs"
                   autofocus={true}
-                  value={value}
-                  placeholder="En pesos"
-                  onIonChange={e => setValue(parseInt(e.detail.value!))}>
-                </IonInput>
+                  value={reference}
+                  placeholder="referencia"
+                  onIonChange={(e) => setReference(e.detail.value!)}
+                ></IonInput>
               </IonItem>
-            </IonCol> */}
-            <IonCol size="6">
+            </IonCol>
+            <IonCol size="4">
               <IonItem>
                 <IonLabel position="stacked">Precio</IonLabel>
                 <IonInput
@@ -270,6 +272,19 @@ const CreatePresentation: React.FC = () => {
                   value={price}
                   placeholder="pesos"
                   onIonChange={(e) => setPrice(parseInt(e.detail.value!))}
+                ></IonInput>
+              </IonItem>
+            </IonCol>
+            <IonCol size="4">
+              <IonItem>
+                <IonLabel position="stacked">Stock</IonLabel>
+                <IonInput
+                  type="number"
+                  className="inputs"
+                  autofocus={true}
+                  value={stock}
+                  placeholder="Cantidad"
+                  onIonChange={(e) => setStock(parseInt(e.detail.value!))}
                 ></IonInput>
               </IonItem>
             </IonCol>
@@ -289,55 +304,52 @@ const CreatePresentation: React.FC = () => {
                   ></IonInput>
                 </IonItem>
                 <IonItem>
-                  <IonLabel position="stacked">Tamaño</IonLabel>
+                  <IonLabel position="stacked">Volumen</IonLabel>
                   <IonInput
                     className="inputs"
                     autofocus={true}
-                    value={size}
-                    placeholder="ejemplo(20x20)"
-                    onIonChange={(e) => setSize(e.detail.value!)}
+                    value={volume}
+                    placeholder="ejemplo(300ml)"
+                    onIonChange={(e) => setVolumen(e.detail.value!)}
                   ></IonInput>
                 </IonItem>
 
                 <IonRow>
-                    <IonCol>
+                  <IonCol>
                     <IonItem>
-                  <IonLabel position="stacked">Ancho</IonLabel>
-                  <IonInput
-                    className="inputs"
-                    value={volumex}
-                    placeholder="cm"
-                    onIonChange={(e) => setVolumex
-                    (e.detail.value!)}
-                  ></IonInput>
-                </IonItem>
-                    </IonCol>
-                    x
-                    <IonCol>
+                      <IonLabel position="stacked">Ancho</IonLabel>
+                      <IonInput
+                        className="inputs"
+                        value={volumex}
+                        placeholder="cm"
+                        onIonChange={(e) => setVolumex(e.detail.value!)}
+                      ></IonInput>
+                    </IonItem>
+                  </IonCol>
+                  x
+                  <IonCol>
                     <IonItem>
-                  <IonLabel position="stacked">Alto</IonLabel>
-                  <IonInput
-                    className="inputs"
-                    value={volumey}
-                    placeholder="cm"
-                    onIonChange={(e) => setVolumey
-                    (e.detail.value!)}
-                  ></IonInput>
-                </IonItem>
-                    </IonCol>
-                    x <IonCol>
+                      <IonLabel position="stacked">Alto</IonLabel>
+                      <IonInput
+                        className="inputs"
+                        value={volumey}
+                        placeholder="cm"
+                        onIonChange={(e) => setVolumey(e.detail.value!)}
+                      ></IonInput>
+                    </IonItem>
+                  </IonCol>
+                  x{" "}
+                  <IonCol>
                     <IonItem>
-                  <IonLabel position="stacked">Profundidad</IonLabel>
-                  <IonInput
-                    className="inputs"
-                    value={volumez}
-                    placeholder="cm"
-                    onIonChange={(e) => setVolumez
-                    (e.detail.value!)}
-                  ></IonInput>
-                </IonItem>
-                    </IonCol>
-
+                      <IonLabel position="stacked">Profundidad</IonLabel>
+                      <IonInput
+                        className="inputs"
+                        value={volumez}
+                        placeholder="cm"
+                        onIonChange={(e) => setVolumez(e.detail.value!)}
+                      ></IonInput>
+                    </IonItem>
+                  </IonCol>
                 </IonRow>
                 <IonItem>
                   <IonLabel position="stacked">Descripción</IonLabel>

@@ -37,8 +37,9 @@ import {
   CameraOptions,
   CameraSource,
 } from "@capacitor/core";
-import { useHistory } from "react-router";
+import { useHistory, Redirect } from "react-router";
 import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";
+import CreatePresentation from "./create-presentation";
 //instance of camera capacitor plugin
 const { Camera } = Plugins;
 
@@ -52,10 +53,13 @@ const CreateProduct: React.FC = () => {
   const [characteristics, setCharasteristics] = useState<string>("");
   const [benefits, setBenefits] = useState<string>("");
   const [img, setImg] = useState<string>(" ");
-  const [imgData, setImgData] = useState<any>();
+  const [imgData, setImgData] = useState<any>(null);
   const [showToast1, setShowToast1] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [showAlert1, setShowAlert1] = useState(false);
+
+  // id_product
+  const [idProduct, setIdProduct] = useState<string>("idpapapap");
 
   /*
   This function handle a submit
@@ -80,17 +84,18 @@ const CreateProduct: React.FC = () => {
     productFormData.append("file", imgData, `product_${name}`);
     productFormData.append("phone", "123456121"); //need to save temporal fix phone in the phone
 
-    ProductService.createProduct(product, productFormData)
+    ProductService.createProduct(productFormData)
       .then((response) => {
         if (response.status === 200) {
           if (response.data.response === 2) {
             setMessage("Genial!!, se creo el producto");
             setShowToast1(true);
             setShowAlert1(true);
-           
+            setIdProduct(response.data.content.product["_id"]);
           } else {
             setMessage("Error al crear el producto, intenta mas tarde");
             setShowToast1(true);
+            console.log(response);
           }
         }
       })
@@ -98,6 +103,7 @@ const CreateProduct: React.FC = () => {
         console.log(err);
         setMessage("Error al crear el producto, intenta mas tarde");
         setShowToast1(true);
+        setShowAlert1(true);
       });
   };
   const covertFile = async (
@@ -162,8 +168,10 @@ const CreateProduct: React.FC = () => {
       setImgData(dat);
     }
     console.log("informacion de la imgagen: ", image);
+
     //console.log(buffer);
   };
+
   return (
     <IonPage id="homePage">
       {/* Page Header */}
@@ -195,13 +203,18 @@ const CreateProduct: React.FC = () => {
               role: "cancel",
               cssClass: "secondary",
               handler: (blah) => {
-                 history.push("/home");
+                history.push("/home");
               },
             },
             {
               text: "Si",
               handler: () => {
-                 history.push("/products/Presentation");
+                history.push({
+                  pathname: "/products/Presentation",
+                  state: {
+                    idProduct: idProduct,
+                  },
+                });
               },
             },
           ]}

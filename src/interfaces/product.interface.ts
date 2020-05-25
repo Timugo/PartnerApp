@@ -12,13 +12,13 @@ export interface Product {
 
 export interface Presentation {
   // _id:         string;
-  // reference:   string;
+  reference:   string;
   status:      string;
   sizes:       string;
   volume:      string;
   weigth:      string;
   description: string;
   price:       number;
-  // units:       number;
-  urlImg:      string;
+  stock:       number;
+  file:      string;
 }

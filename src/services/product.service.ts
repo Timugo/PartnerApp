@@ -12,7 +12,7 @@ import { LocalStorageService } from './localStorage.service';
 
 export class ProductService {
   
-  static async createProduct(product : Product,dataEncode : FormData) {
+  static async createProduct(dataEncode : FormData) {
     /* Build the base Url*/
     /* Initlize the Envoriment Class to get url */
     let enviroment = new Enviroment();
@@ -101,7 +101,7 @@ export class ProductService {
   
 }
 
-static async createPresentation(presentation : Presentation,dataEncode : FormData) {
+static async createPresentation(dataEncode : FormData,idProduct: string) {
   /* Build the base Url*/
   /* Initlize the Envoriment Class to get url */
   let enviroment = new Enviroment();
@@ -115,7 +115,7 @@ static async createPresentation(presentation : Presentation,dataEncode : FormDat
     },
   }
   /* Endpoint Url */
-  let url : string = `${BASE_URL}/partner/products/create`
+  let url : string = `${BASE_URL}/partner/products/presentations/new?${idProduct}}`
   //fetch the api
   return  await axios.post<CreateProductResponse>(url,dataEncode,config);
   
