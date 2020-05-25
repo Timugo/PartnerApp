@@ -45,10 +45,14 @@ const Login: React.FC = () => {
 						
 						/* Save the JWT in the local storage*/
 						LocalStorageService.saveItem("jwt",res.data.content.token)
-							.then(res =>{
-								//navigate to Home page
-								
-								history.push('/tabs/products');
+							.then(response =>{
+								/* Save the phone in the local storag */
+								LocalStorageService.saveItem("phone",res.data.content.phone.toString())
+								.then(()=>{
+									
+										//navigate to Home page
+										history.push('/tabs/products');
+									})
 							})
 							.catch(err => console.log(err));
 				}).catch(err=>{
