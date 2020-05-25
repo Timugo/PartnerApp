@@ -24,8 +24,13 @@ import {
   useIonViewDidEnter,
   IonModal,
   IonToast,
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonLabel,
+  IonBadge,
 } from '@ionic/react';
-import { add} from 'ionicons/icons';
+import { add, calendar, personCircle, informationCircle, map} from 'ionicons/icons';
 import React, { useState, useRef } from 'react';
 import { RefresherEventDetail } from '@ionic/core';
 /* Page Css Styles */
@@ -47,13 +52,20 @@ interface CustomProps{
 
 /* React Functional Component */
 const Login: React.FC = () => {
-  let productTemp : Product = {} ;
+  // let productTemp : Product = {
+  //   benefits : "",
+  //   characteristics : "",
+  //   deliveryDays : 0,
+  //   description : "",
+  //   file : "",
+  //   name : "",
+  // } ;
   const [products, setProducts] = useState<Product[]>();
-  const [product, setProduct] =useState<Product>(productTemp);
+  const [product, setProduct] =useState<Product>();
   const [showProductModal, setShowProductModal] = useState<boolean>(false);
   const [showToast, setShowToast] = useState<boolean>(false);
   const [messageToast, setMessageToast] = useState<string>("");
-  const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
+  //const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
   const pageRef = useRef<HTMLElement>(null);
   /*
     This function loads every time 
@@ -106,7 +118,7 @@ const Login: React.FC = () => {
       <IonHeader className="ion-no-border" translucent={true}>
         <IonToolbar>
           <IonButtons>
-            <IonMenuButton menu="sideMenu" ></IonMenuButton>
+            <IonMenuButton ></IonMenuButton>
           </IonButtons>
           <IonTitle>Pets</IonTitle>
         </IonToolbar>
@@ -127,6 +139,7 @@ const Login: React.FC = () => {
           </IonRefresherContent>
         </IonRefresher>
 
+        
         <IonGrid>
           <IonRow className="ion-margin ion-align-items-end ion-justify-content-between">
             <IonCol>
@@ -153,9 +166,9 @@ const Login: React.FC = () => {
                     
                         return <IonSlide key={i} >
                                 <IonCard onClick={()=> {GoProduct(item)}}>
-                                  <IonImg src={"https://metrocolombiafood.vteximg.com.br/arquivos/ids/182931-1000-1000/7703616001531-1.jpg?v=636712344825470000"}></IonImg>
+                                  <IonImg src={item.img}></IonImg>
                                   <IonCardHeader>
-                                    <IonCardSubtitle>{item.price}</IonCardSubtitle>
+                                    {/* <IonCardSubtitle>{item.price}</IonCardSubtitle> */}
                                     <IonCardTitle>{item.description}</IonCardTitle>
                                   </IonCardHeader>
                                 </IonCard>
@@ -190,7 +203,7 @@ const Login: React.FC = () => {
             */}
           <ProductModal
             onDismissModal={() => setShowProductModal(false)}
-            product={product}
+            product={product!}
           /> 
         </IonModal>    
       </IonContent>

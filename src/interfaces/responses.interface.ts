@@ -34,7 +34,7 @@ export interface ProductResponse {
 export interface GetProductsReponse {
     response : number,
     content :{
-        products : [ProductResponse] 
+        products : [Product] 
     }
 }
 export interface UpdateProductReponse {

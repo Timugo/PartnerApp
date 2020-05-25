@@ -1,11 +1,24 @@
 export interface Product {
   _id?:string;
-  description? : string ;
-  price? : number;
-  benefits? : string;
-  characteristics? : string;
+  description : string ;
+  benefits : string;
+  characteristics : string;
   img? : string;
-  deliveryDays? : number;
-  name? : string
+  file : any;
+  deliveryDays : number;
+  name : string
   status? : string
+}
+
+export interface Presentation {
+  // _id:         string;
+  // reference:   string;
+  status:      string;
+  sizes:       string;
+  volume:      string;
+  weigth:      string;
+  description: string;
+  price:       number;
+  // units:       number;
+  urlImg:      string;
 }

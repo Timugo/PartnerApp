@@ -10,6 +10,7 @@ import Login2 from './pages/Login/Login2'
 import SideMenu from './components/SideMenu';
 import Home from "./pages/Home/Home";
 import NewProduct from "./pages/Products/create-product";
+import MainTabs from "./pages/Home/MainTabs";
 
 
 
@@ -31,6 +32,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.scss';
+import CreatePresentation from './pages/Products/create-presentation';
 
 
 
@@ -42,12 +44,14 @@ const App: React.FC = () => (
       <SideMenu />
       {/* Content page of the all entire app */}
       <IonRouterOutlet id="main">
+        <Route path="/tabs" component={MainTabs} exact={true} />
         <Route path="/slides" component={Slides} exact={true} />
         {/* Principal Page with tabs */}
         <Route path="/login" component={Login} exact={true} />
         <Route path="/login2" component={Login2} exact={true} />
         <Route path="/home" component={Home} exact={true} />
         <Route path="/products/create" component={NewProduct} exact={true} />
+        <Route path="/products/Presentation" component={CreatePresentation} exact={true} />
         {/*If User is logged then, redirect to home, if not redirect to slides tutorial*/  }
         <Route exact path="/" component={HomeOrLogin}/>
         {/* <Route exact path="/" render={() => <Redirect to="/home" />} /> */}
