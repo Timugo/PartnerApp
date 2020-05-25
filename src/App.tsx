@@ -6,9 +6,8 @@ import { IonReactRouter } from '@ionic/react-router';
 import Slides from './pages/Login/Slides';
 import HomeOrLogin from './components/HomeOrLogin';
 import Login from './pages/Login/Login';
-import Login2 from './pages/Login/Login2'
 import SideMenu from './components/SideMenu';
-import Home from "./pages/Home/Home";
+import Home from "./pages/Home/Products";
 import NewProduct from "./pages/Products/create-product";
 import MainTabs from "./pages/Home/MainTabs";
 
@@ -44,17 +43,18 @@ const App: React.FC = () => (
       <SideMenu />
       {/* Content page of the all entire app */}
       <IonRouterOutlet id="main">
-        <Route path="/tabs" component={MainTabs} exact={true} />
-        <Route path="/slides" component={Slides} exact={true} />
+        <Route path="/tabs" component={MainTabs}/>
+        {/* <Route path="/tabs/orders" component={MainTabs} exact={true} />
+        <Route path="/tabs/products" component={MainTabs} exact={true} /> */}
+
+        <Route path="/slides" component={Slides}/>
         {/* Principal Page with tabs */}
-        <Route path="/login" component={Login} exact={true} />
-        <Route path="/login2" component={Login2} exact={true} />
-        <Route path="/home" component={Home} exact={true} />
-        <Route path="/products/create" component={NewProduct} exact={true} />
-        <Route path="/products/Presentation" component={CreatePresentation} exact={true} />
+        <Route path="/login" component={Login}/>
+        <Route path="/home" component={Home}/>
+        <Route path="/products/create" component={NewProduct}/>
+        <Route path="/products/Presentation" component={CreatePresentation}/>
         {/*If User is logged then, redirect to home, if not redirect to slides tutorial*/  }
         <Route exact path="/" component={HomeOrLogin}/>
-        {/* <Route exact path="/" render={() => <Redirect to="/home" />} /> */}
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

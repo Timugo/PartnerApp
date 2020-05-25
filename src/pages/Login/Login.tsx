@@ -48,7 +48,7 @@ const Login: React.FC = () => {
 							.then(res =>{
 								//navigate to Home page
 								
-								history.push('home');
+								history.push('/tabs/products');
 							})
 							.catch(err => console.log(err));
 				}).catch(err=>{
@@ -87,7 +87,7 @@ const Login: React.FC = () => {
 								<IonRow>
 									<IonCol size="10" offset="1">
 										<IonItem>
-											<IonLabel color="medium" className="labelForm" position="floating">Telefono</IonLabel>
+											<IonLabel color="medium" className="labelForm" position="floating">Celular</IonLabel>
 											<IonInput value={user} onIonChange={e=> setUser(e.detail.value!)} type="number" clearInput={true}>
 											</IonInput>
 										</IonItem>
@@ -96,7 +96,7 @@ const Login: React.FC = () => {
 								<IonRow>
 									<IonCol size="10" offset="1">
 										<IonItem>
-											<IonLabel color="medium" className="labelForm" position="floating">Constrasenia</IonLabel>
+											<IonLabel color="medium" className="labelForm" position="floating">Constraseña</IonLabel>
 											<IonInput value={password} onIonChange={e=> setPassword(e.detail.value!)} type="password"
 												clearInput={true}></IonInput>
 										</IonItem>

@@ -336,7 +336,7 @@ const CreateProduct: React.FC = () => {
           <IonRow className="ion-align-items-end ion-justify-content-between">
             <IonCol size="6">
               <IonButton
-                href="/home"
+                href="/tabs"
                 className="cancelButton"
                 expand="block"
                 fill="clear"

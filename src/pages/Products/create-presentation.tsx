@@ -389,11 +389,10 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
           <IonRow className="ion-align-items-end ion-justify-content-between">
             <IonCol size="6">
               <IonButton
-                href="/home"
+                href="tabs/"
                 className="cancelButton"
                 expand="block"
-                fill="clear"
-              >
+                fill="clear">
                 <IonIcon icon={closeOutline} slot="start" />
                 Cancelar
               </IonButton>

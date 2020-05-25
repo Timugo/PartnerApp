@@ -15,7 +15,7 @@ import {
 } from 'ionicons/icons';
 import { Route, Redirect } from 'react-router';
 /* Pages */
-import ProductsPage from "./Home";
+import ProductsPage from "./Products";
 import OrdersPage from "../Orders/Orders";
 
 
@@ -25,7 +25,7 @@ const MainTabs: React.FC<MainTabsProps> = () => {
 
   return (
     <IonTabs>
-      <IonRouterOutlet>
+      <IonRouterOutlet>  
         <Redirect exact path="/tabs" to="/tabs/orders" />
         {/*
           Using the render method prop cuts down the number of renders your components will have due to route changes.
@@ -43,11 +43,10 @@ const MainTabs: React.FC<MainTabsProps> = () => {
           <IonIcon icon={listOutline} />
           <IonLabel>Products</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="Perfil" href="/tabs/map">
+        {/* <IonTabButton tab="Perfil" href="/map">
           <IonIcon icon={location} />
           <IonLabel>Perfil</IonLabel>
-        </IonTabButton>
-
+        </IonTabButton> */}
       </IonTabBar>
     </IonTabs>
   );

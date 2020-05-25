@@ -20,7 +20,7 @@ const HomeOrLogin : React.FC = () => {
 			.then((token )=>{
 			/* If exists the jwt in the phone the user is logged */ 
 				if(token.value != null){
-					setRedirect('/tabs');
+					setRedirect('/tabs/orders');
 				}else{
 					setRedirect('/slides')
 				}

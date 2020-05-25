@@ -16,7 +16,6 @@ import {
   IonSlide,
   IonCard,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonImg,
   IonIcon,
@@ -24,17 +23,12 @@ import {
   useIonViewDidEnter,
   IonModal,
   IonToast,
-  IonTabs,
-  IonTabBar,
-  IonTabButton,
-  IonLabel,
-  IonBadge,
 } from '@ionic/react';
-import { add, calendar, personCircle, informationCircle, map} from 'ionicons/icons';
+import { add} from 'ionicons/icons';
 import React, { useState, useRef } from 'react';
 import { RefresherEventDetail } from '@ionic/core';
 /* Page Css Styles */
-import './Home.scss';
+import './Products.scss';
 /* Services */
 import { ProductService } from "../../services/product.service";
 /* Interfaces */
@@ -45,7 +39,6 @@ import { Product } from '../../interfaces/product.interface';
 import ProductModal from '../../components/ProducModal';
 
 interface CustomProps{
-  
   fieldName : string
 }
 
@@ -148,7 +141,7 @@ const Login: React.FC = () => {
               </IonText>
             </IonCol>
             <IonCol size="auto">
-              <IonButton fill="clear" routerLink="/products/create">
+              <IonButton fill="clear" href="/products/create">
                 Agregar
                 <IonIcon slot="start" icon={add} />
               </IonButton>
@@ -163,7 +156,6 @@ const Login: React.FC = () => {
                   <IonSlides pager={false} options={slideOpts}>
                     {
                       products.map(function(item : Product,i :number) {
-                    
                         return <IonSlide key={i} >
                                 <IonCard onClick={()=> {GoProduct(item)}}>
                                   <IonImg src={item.img}></IonImg>
