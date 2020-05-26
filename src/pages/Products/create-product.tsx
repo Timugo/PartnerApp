@@ -58,9 +58,6 @@ const CreateProduct: React.FC = () => {
   const [showToast1, setShowToast1] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
 
-  // id_product
-  const [idProduct, setIdProduct] = useState<string>("idpapapap");
-
   /*
   This function handle a submit
   of a new product
@@ -159,8 +156,7 @@ const CreateProduct: React.FC = () => {
           isOpen={showToast1}
           onDidDismiss={() => setShowToast1(false)}
           message={message}
-          duration={500}
-        />
+          duration={500}/>
 
         {/* define ionic grid */}
         <IonGrid>

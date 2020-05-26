@@ -29,7 +29,7 @@ import { closeOutline, image } from "ionicons/icons";
 /* Services */
 import { ProductService } from "../../services/product.service";
 /* Interfaces */
-import { Product, Presentation } from "../../interfaces/product.interface";
+import { Presentation } from "../../interfaces/product.interface";
 /* Capacitor plugins libraries */
 import {
   Plugins,
@@ -37,9 +37,8 @@ import {
   CameraOptions,
   CameraSource,
 } from "@capacitor/core";
-import { useHistory } from "react-router";
+import { useHistory, RouteComponentProps } from "react-router";
 import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";
-import { CreateProductResponse } from "../../interfaces/responses.interface";
 import { FileConverter } from "./Services/fileConverter.service";
 
 //instance of camera capacitor plugin
@@ -49,15 +48,21 @@ interface OwnProps {}
 interface PageProps {
   idProduct?: string;
 }
+interface PageProps extends RouteComponentProps<{
+  id: string;
+}> {}
 /* Union of all properties to inject into component */
 type ProductModalProps = OwnProps & PageProps;
-const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
+/* Match let to get info from url params and path */
+const CreatePresentation: React.FC<PageProps> = ({ match }) => {
   /* Used to redirect pages */
   const history = useHistory();
+  
   /* variables used in the page */
+  const [idProduct, setIdProduct] = useState<string>(match.params.id);
+  
   const [status, setStatus] = useState<string>("");
   const [stock, setStock] = useState<number>(0);
-  const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [volume, setVolumen] = useState<string>("");
   const [volumex, setVolumex] = useState<string>("");
@@ -86,17 +91,17 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
     presentationFormData.append("sizes",volumex + "x" + volumey + "x" + volumez);
     presentationFormData.append("volume", volume);
     presentationFormData.append("weigth", weight);
-    presentationFormData.append("urlImg", imgData, `product_${name}`);
+    presentationFormData.append("file", imgData, `product_${reference}`);
     presentationFormData.append("price", price.toString());
     presentationFormData.append("stock", stock.toString());
 
-    ProductService.createPresentation(presentationFormData,idProduct!)
+    ProductService.createPresentation(presentationFormData,idProduct)
       .then((response) => {
         if (response.status === 200) {
           if (response.data.response === 2) {
             setMessage("Genial!!, se creo la prsentación");
             setShowToast1(true);
-            setShowAlert1(true);
+           
             // history.push("/home");
           } else {
             setMessage("Error al crear la presentación , intenta mas tarde");
@@ -145,6 +150,7 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
     console.log("informacion de la imgagen: ", image);
     //console.log(buffer);
   };
+
   return (
     <IonPage id="homePage">
       {/* Page Header */}
@@ -163,31 +169,6 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
           message={message}
           duration={500}
         />
-        {/* Alert for add presentation product */}
-        <IonAlert
-          isOpen={showAlert1}
-          onDidDismiss={() => setShowAlert1(false)}
-          cssClass="my-custom-class"
-          header={"Crear presentación"}
-          message={"Desea agregarcotracpresentación para este producto?"}
-          buttons={[
-            {
-              text: "Despues",
-              role: "cancel",
-              cssClass: "secondary",
-              handler: (blah) => {
-                
-              },
-            },
-            {
-              text: "Si",
-              handler: () => {
-                console.log("Confirm Okay");
-              },
-            },
-          ]}
-        />
-
         {/* define ionic grid */}
         <IonGrid>
           {/* First Row */}
@@ -292,7 +273,7 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
                       ></IonInput>
                     </IonItem>
                   </IonCol>
-                  x
+                  
                   <IonCol>
                     <IonItem>
                       <IonLabel position="stacked">Alto</IonLabel>
@@ -304,7 +285,7 @@ const CreatePresentation: React.FC<ProductModalProps> = ({ idProduct }) => {
                       ></IonInput>
                     </IonItem>
                   </IonCol>
-                  x{" "}
+                  
                   <IonCol>
                     <IonItem>
                       <IonLabel position="stacked">Profundidad</IonLabel>
