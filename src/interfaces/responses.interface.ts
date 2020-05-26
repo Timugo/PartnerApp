@@ -13,7 +13,8 @@ export interface LoginResponse {
     content : {
       expiresIn: number,
       token: string,
-      phone: number            
+      phone: number ,
+      id:string          
 
     }
 }
