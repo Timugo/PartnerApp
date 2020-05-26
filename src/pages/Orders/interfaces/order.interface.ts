@@ -1,4 +1,3 @@
-import { Product } from "../../../interfaces/product.interface";
 
 export interface OrderRespository {
   _id:string,
