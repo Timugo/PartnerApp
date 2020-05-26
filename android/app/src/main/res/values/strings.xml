@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Somos Pets</string>
+    <string name="app_name">SoyPets</string>
     <string name="title_activity_main">Somos Pets</string>
     <string name="package_name">com.timugo.petspartner</string>
     <string name="custom_url_scheme">com.timugo.petspartner</string>
