@@ -12,16 +12,10 @@ import {
   IonCol,
   IonItem,
   IonLabel,
-  IonInput,
   IonList,
   IonText,
   IonToast,
   IonFooter,
-  IonListHeader,
-  IonSelect,
-  IonSelectOption,
-  IonTextarea,
-  IonModal,
   IonIcon,
 } from '@ionic/react';
 /* Css component styles */
@@ -29,10 +23,10 @@ import './OrderModal.scss';
 /* Capacitor Plugins */
 import { Plugins } from '@capacitor/core';
 /* Components */
-import { Redirect, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 /* Interfaces */
 import { OrderRespository } from '../interfaces/order.interface';
-import { atCircle, star, phoneLandscape, call } from 'ionicons/icons';
+import { call } from 'ionicons/icons';
 import NumberFormat from 'react-number-format';
 
 const { Clipboard } = Plugins;
@@ -51,11 +45,11 @@ type ProductModalProps = OwnProps & PageProps;
 /* React Functional Component */
 const OrderModal: React.FC<ProductModalProps> = ({ onDismissModal,order }) => {
   /* Used to push other views */
-  const history = useHistory();
+  //const history = useHistory();
   const [ showToast , setShowToast] = useState<boolean>(false);
   const [ toasMessage , setToastMessage] = useState<string>("");
 
-  const [ currentOrder , setCurrentOrder ] = useState<OrderRespository>();
+  //const [ currentOrder , setCurrentOrder ] = useState<OrderRespository>();
   
   console.log(order);
   /*

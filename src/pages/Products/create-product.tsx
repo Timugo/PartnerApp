@@ -21,25 +21,20 @@ import {
   IonTitle,
   IonImg,
   IonToast,
-  IonAlert,
 } from "@ionic/react";
 import React, { useState } from "react";
 /* Ionic icons from ionic library  */
-import { closeOutline, image } from "ionicons/icons";
+import { closeOutline } from "ionicons/icons";
 /* Services */
 import { ProductService } from "../../services/product.service";
-/* Interfaces */
-import { Product } from "../../interfaces/product.interface";
 /* Capacitor plugins libraries */
 import {
   Plugins,
   CameraResultType,
   CameraOptions,
-  CameraSource,
 } from "@capacitor/core";
-import { useHistory, Redirect } from "react-router";
+import { useHistory} from "react-router";
 import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";
-import CreatePresentation from "./create-presentation";
 import { FileConverter } from "./Services/fileConverter.service";
 //instance of camera capacitor plugin
 const { Camera } = Plugins;

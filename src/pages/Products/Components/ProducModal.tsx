@@ -23,17 +23,17 @@ import {
   IonTextarea,
   IonModal,
 } from '@ionic/react';
-import { codeWorking } from 'ionicons/icons';
+import { useHistory } from 'react-router';
 /* Css component styles */
 import './ProductModal.scss'
+/* Interfaces */
 import { Product, Presentation } from '../../../interfaces/product.interface';
 /* Capacitor Plugins */
 import { Plugins } from '@capacitor/core';
 import { ProductService } from '../../../services/product.service';
 /* Components */
 import PresentationModal from "./PresentationModal";
-import { Redirect, useHistory } from 'react-router';
-import CreatePresentation from '../create-presentation';
+/* Plugins  */
 const { Clipboard } = Plugins;
 
 /*  Function Properties */

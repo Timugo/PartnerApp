@@ -21,21 +21,18 @@ import {
   IonTitle,
   IonImg,
   IonToast,
-  IonAlert,
 } from "@ionic/react";
 import React, { useState } from "react";
 /* Ionic icons from ionic library  */
-import { closeOutline, image } from "ionicons/icons";
+import { closeOutline} from "ionicons/icons";
 /* Services */
 import { ProductService } from "../../services/product.service";
 /* Interfaces */
-import { Presentation } from "../../interfaces/product.interface";
 /* Capacitor plugins libraries */
 import {
   Plugins,
   CameraResultType,
   CameraOptions,
-  CameraSource,
 } from "@capacitor/core";
 import { useHistory, RouteComponentProps } from "react-router";
 import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";

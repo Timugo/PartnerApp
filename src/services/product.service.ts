@@ -60,68 +60,65 @@ export class ProductService {
   /*
     This function update the product info
   */
- static async updateProduct(product:Product){
-   /* get url from envoriment service */
-  let enviroment = new Enviroment();
-  const BASE_URL = await enviroment.getUrl();
-  /* Get the JWT from local storage */
-  const jwt : any = await LocalStorageService.getItem('jwt');
-  let config :any = { 
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${jwt.value}`
-    },
-  };
-  /* Endpoint Url */
-  let url : string = `${BASE_URL}/partner/products/update`
-  //fetch the api
-  return  await axios.put<UpdateProductReponse>(url,product,config);
- }
+  static async updateProduct(product:Product){
+    /* get url from envoriment service */
+    let enviroment = new Enviroment();
+    const BASE_URL = await enviroment.getUrl();
+    /* Get the JWT from local storage */
+    const jwt : any = await LocalStorageService.getItem('jwt');
+    let config :any = { 
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt.value}`
+      },
+    };
+    /* Endpoint Url */
+    let url : string = `${BASE_URL}/partner/products/update`
+    //fetch the api
+    return  await axios.put<UpdateProductReponse>(url,product,config);
+  }
   /*
     This function Delete a product from the databse
   */
- static async deleteProduct(idProduct : string) {
-  /* Build the base Url*/
-  /* Initlize the Envoriment Class to get url */
-  let enviroment = new Enviroment();
-  /* get url from envoriment service */
-  const BASE_URL = await enviroment.getUrl();
-  const jwt : any = await LocalStorageService.getItem('jwt');
-  //console.log(jwt);
-  let config :any = { 
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${jwt.value}`
-    },
-  };
-  /* Endpoint Url */
-  let url : string = `${BASE_URL}/partner/products/delete?idProduct=${idProduct}`
-  //fetch the api
-  return  await axios.delete<GenericResponse>(url,config);
-  
-}
-
-static async createPresentation(dataEncode : FormData,idProduct: string) {
-  /* Build the base Url*/
-  /* Initlize the Envoriment Class to get url */
-  let enviroment = new Enviroment();
-  /* get url from envoriment service */
-  const BASE_URL = await enviroment.getUrl();
-  const jwt : any = await LocalStorageService.getItem('jwt');
-  const idPartner  = await LocalStorageService.getItem('id');
-
-  let config :any = { 
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      'Authorization': `Bearer ${jwt.value}`
-    },
+  static async deleteProduct(idProduct : string) {
+    /* Build the base Url*/
+    /* Initlize the Envoriment Class to get url */
+    let enviroment = new Enviroment();
+    /* get url from envoriment service */
+    const BASE_URL = await enviroment.getUrl();
+    const jwt : any = await LocalStorageService.getItem('jwt');
+    //console.log(jwt);
+    let config :any = { 
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt.value}`
+      },
+    };
+    /* Endpoint Url */
+    let url : string = `${BASE_URL}/partner/products/delete?idProduct=${idProduct}`
+    //fetch the api
+    return  await axios.delete<GenericResponse>(url,config);
   }
-  /* Endpoint Url */
-  let url : string = `${BASE_URL}/partner/products/presentations/new?idProduct=${idProduct}&idPartner=${idPartner.value}}`
-  //fetch the api
-  return  await axios.post<CreateProductResponse>(url,dataEncode,config);
-  
-}
 
-  
+  static async createPresentation(dataEncode : FormData,idProduct: string) {
+    /* Build the base Url*/
+    /* Initlize the Envoriment Class to get url */
+    let enviroment = new Enviroment();
+    /* get url from envoriment service */
+    const BASE_URL = await enviroment.getUrl();
+    const jwt : any = await LocalStorageService.getItem('jwt');
+    const idPartner  = await LocalStorageService.getItem('id');
+
+    let config :any = { 
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${jwt.value}`
+      },
+    }
+    /* Endpoint Url */
+    let url : string = `${BASE_URL}/partner/products/presentations/new?idProduct=${idProduct}&idPartner=${idPartner.value}}`
+    //fetch the api
+    return  await axios.post<CreateProductResponse>(url,dataEncode,config);
+    
+  }
 }

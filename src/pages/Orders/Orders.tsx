@@ -1,11 +1,34 @@
-import React, { useRef, useState, useEffect }  from 'react';
-import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel, IonPage, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonSegment, IonSegmentButton, IonTitle, IonSearchbar, IonButton, IonContent, IonItemSliding, IonItem, IonNote, IonItemOptions, IonItemOption, useIonViewWillEnter, useIonViewDidEnter, IonRow, IonText, IonModal } from '@ionic/react';
-import { Route, Redirect } from 'react-router';
-import { calendar, location, informationCircle, people, clipboardOutline, listOutline, search, heart, trash, star, checkmarkCircleOutline } from 'ionicons/icons';
+import React, { useRef, useState}  from 'react';
+import { 
+  IonIcon,
+  IonLabel,
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonMenuButton,
+  IonSegment,
+  IonSegmentButton,
+  IonTitle, 
+  IonButton,
+  IonContent, 
+  IonItem,
+  IonNote, 
+  IonItemOptions, 
+  IonItemOption, 
+  useIonViewDidEnter, 
+  IonText, 
+  IonModal,
+  IonButtons,
+  IonItemSliding
+} from '@ionic/react';
+import { checkmarkCircleOutline } from 'ionicons/icons';
+/* Interfaces */
 import { OrderRespository } from './interfaces/order.interface';
+/* Services */
 import { OrderServices } from "./Services/orders.service";
 /* Libraries */
 import { default as NumberFormat } from 'react-number-format';
+/* Componens */
 import OrderModal from './components/OrderModal';
 
 

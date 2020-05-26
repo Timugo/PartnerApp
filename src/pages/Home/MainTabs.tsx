@@ -9,7 +9,6 @@ import {
   IonLabel
 } from '@ionic/react';
 import {
-  location,
   clipboardOutline,
   listOutline 
 } from 'ionicons/icons';

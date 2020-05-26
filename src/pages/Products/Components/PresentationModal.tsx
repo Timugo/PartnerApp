@@ -14,12 +14,8 @@ import {
   IonLabel,
   IonInput,
   IonList,
-  IonText,
   IonToast,
   IonFooter,
-  IonListHeader,
-  IonSelect,
-  IonSelectOption,
   IonTextarea,
 } from '@ionic/react';
 import { } from 'ionicons/icons';
@@ -28,7 +24,9 @@ import './ProductModal.scss'
 /* Capacitor Plugins */
 import { Plugins } from '@capacitor/core';
 import { Presentation } from '../../../interfaces/product.interface';
-
+/* Services */
+import { PresentationService } from '../Services/presentation.service';
+/* Plugins */
 const { Clipboard } = Plugins;
 
 /*  Function Properties */
@@ -69,42 +67,42 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,presentation
     of the product when the user click 
     in the button 
   */
-  const UpdateProduct = () =>{
+  const updatePresentation = () =>{
     /* Request to the server */
     let presentationUpdated : Presentation = currentPresentation;
     /* Fetch the api to update the product */
-    // ProductService.updatePresentation(presentationUpdated)
-    //   .then(response =>{
-    //     setToastMessage("El producto se actualizo correctamente");
-    //     setShowToast(true);
-    //   })
-    //   .catch(err=>{
-    //     console.log(err);
-    //     setToastMessage("Ups, ocurrio un error, intenta mas tarde");
-    //     setShowToast(true);
-    //   });
+    PresentationService.updatePresentation(presentationUpdated)
+      .then(response =>{
+        setToastMessage("El producto se actualizo correctamente");
+        setShowToast(true);
+      })
+      .catch(err=>{
+        console.log(err);
+        setToastMessage("Ups, ocurrio un error, intenta mas tarde");
+        setShowToast(true);
+      });
   }
   /*
     This function make a request to server
     to delete a current product in the modal
   */
-  const DeleteProduct =() =>{
+  const DeletePresentation =() =>{
     /* Fetch the server to delete a product */
-    // ProductService.deleteProduct(product._id!)
-    //   .then(response =>{
-    //     /* reponse = 2 its a good request */
-    //     if(response.data.response === 2){
-    //       setToastMessage("El producto se elimino");
-    //       setShowToast(true);
-    //     }else{
-    //       setToastMessage("El producto no se elimino, intenta mas tarde");
-    //       setShowToast(true);
-    //     }
-    //   })
-    //   .catch(err=>{
-    //     setToastMessage("Ups, ocurrio un error, intenta mas tarde");
-    //     setShowToast(true);
-    //   });
+    PresentationService.deletePresentation(presentation._id!)
+      .then(response =>{
+        /* reponse = 2 its a good request */
+        if(response.data.response === 2){
+          setToastMessage("El producto se elimino");
+          setShowToast(true);
+        }else{
+          setToastMessage("El producto no se elimino, intenta mas tarde");
+          setShowToast(true);
+        }
+      })
+      .catch(err=>{
+        setToastMessage("Ups, ocurrio un error, intenta mas tarde");
+        setShowToast(true);
+      });
   }
 
   return (
@@ -268,7 +266,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,presentation
               role: 'Eliminar',
               handler: () => {
                 /* If user confirms delete */
-                DeleteProduct();
+                DeletePresentation();
               }
             }
           ]}
@@ -290,7 +288,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,presentation
             </IonCol>
             <IonCol>
               <IonButton
-                onClick={UpdateProduct}
+                onClick={updatePresentation}
                 expand="block"
               >
                 Actualizar
