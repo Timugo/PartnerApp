@@ -108,6 +108,8 @@ static async createPresentation(dataEncode : FormData,idProduct: string) {
   /* get url from envoriment service */
   const BASE_URL = await enviroment.getUrl();
   const jwt : any = await LocalStorageService.getItem('jwt');
+  const idPartner  = await LocalStorageService.getItem('id');
+
   let config :any = { 
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -115,7 +117,7 @@ static async createPresentation(dataEncode : FormData,idProduct: string) {
     },
   }
   /* Endpoint Url */
-  let url : string = `${BASE_URL}/partner/products/presentations/new?${idProduct}}`
+  let url : string = `${BASE_URL}/partner/products/presentations/new?idProduct=${idProduct}&idPartner=${idPartner.value}}`
   //fetch the api
   return  await axios.post<CreateProductResponse>(url,dataEncode,config);
   

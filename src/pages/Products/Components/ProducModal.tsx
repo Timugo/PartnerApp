@@ -1,5 +1,5 @@
 /* React importations */
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   IonHeader,
   IonToolbar,
@@ -32,6 +32,8 @@ import { Plugins } from '@capacitor/core';
 import { ProductService } from '../../../services/product.service';
 /* Components */
 import PresentationModal from "./PresentationModal";
+import { Redirect, useHistory } from 'react-router';
+import CreatePresentation from '../create-presentation';
 const { Clipboard } = Plugins;
 
 /*  Function Properties */
@@ -47,6 +49,8 @@ type ProductModalProps = OwnProps & PageProps;
 
 /* React Functional Component */
 const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) => {
+  const history = useHistory();
+
   const [ showToast , setShowToast] = useState<boolean>(false);
   const [ showDeleteToast , setShowDeleteToast] = useState<boolean>(false);
   const [ toasMessage , setToastMessage] = useState<string>("");
@@ -64,6 +68,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
 
   const [ selectPresentation, setSelectPresentation] = useState<Presentation>(product.presentations[0]);
   const [ showPresentationModal, setShowPresentationModal] = useState<boolean>(false);
+  const [ showCreatePresentation, setShowCreatePresentation] = useState<boolean>(false);
 
   /*
     This Function use the clipboard plugin
@@ -121,13 +126,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
         setShowToast(true);
       });
   }
-  const OpenModalPresentation = (presentation : any)=>{
-    console.log(presentation);
+  const OpenModalPresentation = ()=>{
+   
   }
 
   return (
     /* Used the <> because only can return a hole component  */
-    < >
+    <>
       <IonHeader translucent={true}>
         <IonToolbar>
           <IonButtons slot="start">
@@ -175,7 +180,22 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
             })
           }
           </IonRow>
-        </IonGrid>
+          <IonRow>
+            <IonCol>
+              <IonButton 
+                size="small"
+                color="secondary"
+                fill="outline"
+                onClick={()=>{
+                  history.push(`/products/Presentation/${product._id}`);
+                  onDismissModal();
+                }} 
+                expand="block">
+                Agregar Presentacion
+              </IonButton>
+            </IonCol>
+          </IonRow>
+        </IonGrid>  
         
           
         <IonList>
@@ -186,7 +206,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
           </IonListHeader>
           <IonItem>
               ID: 
-              <IonText onClick={()=>CopyText(product._id!)} color="primary">
+              <IonText onClick={()=>CopyText(product._id)} color="primary">
                 <u>{product._id}</u>
               </IonText>
           </IonItem>
@@ -283,7 +303,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
             idProduct={product._id}
           /> 
         </IonModal>    
-      
+        
       </IonContent>
       <IonFooter>
         <IonGrid>
@@ -292,8 +312,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
               <IonButton
                 onClick={()=>setShowDeleteToast(true)}
                 expand="block"
-                color="danger"
-              >
+                fill="clear"
+                color="medium">
                 Eliminar
               </IonButton>
               
@@ -301,8 +321,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
             <IonCol>
               <IonButton
                 onClick={UpdateProduct}
-                expand="block"
-              >
+                expand="block">
                 Actualizar
               </IonButton>
               
