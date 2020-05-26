@@ -6,11 +6,12 @@ export interface OrderRespository {
   logPayment:[any],
   updated:string,
   nameClient:string,
+  phoneClient:string,
   commission:number,
   address:string,
   dateBeginOrder:string,
   hourStart:string,
-  products:[Product],
+  products:[ProductOrderRepository],
   totalAmount:number,
   paymentMethod:{
     type:string,
@@ -21,4 +22,31 @@ export interface OrderRespository {
     date:string,
     description:string,
   }
+}
+
+export interface ProductOrderRepository {
+  _id:string;
+  description : string ;
+  benefits : string;
+  characteristics : string;
+  img? : string;
+  file : any;
+  deliveryDays : number;
+  name : string
+  status? : string
+  presentations: [PresentationOrderRepository];
+}
+
+export interface PresentationOrderRepository {
+  _id:string;
+  reference:string;
+  status:string;
+  sizes:string;
+  volume:string;
+  weigth:string;
+  description:string;
+  price:number;
+  stock:number;
+  units:number;
+  urlImg:string;
 }

@@ -9,9 +9,10 @@ import {
 import { Enviroment } from "../../../enviroments/enviroments";
 /* Services */
 import { LocalStorageService } from "../../../services/localStorage.service";
+/* */
 
 
-export class GetAvailableOrders {
+export class OrderServices {
   
   static async getActiveOrders() {
     /* Initlize the Envoriment Class to get url */
