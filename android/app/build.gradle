@@ -9,7 +9,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "0.0.1"
+        versionName "0.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -31,7 +31,7 @@ repositories {
 //Changes from recomended changes https://capacitor.ionicframework.com/docs/android/updating/#from-1-5-1-to-2-0-0-beta-0
 dependencies {
     //firebase 'com.google.firebase:firebase-analytics:17.2.3' works
-    implementation 'com.google.firebase:firebase-analytics:17.4.1' //need to update **firebaseMessagingVersion =  '20.1.6'** in variables.gradle
+    implementation 'com.google.firebase:firebase-analytics:17.4.2' //need to update **firebaseMessagingVersion =  '20.1.6'** in variables.gradle
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation project(':capacitor-android')
