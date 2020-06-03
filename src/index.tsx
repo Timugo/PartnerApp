@@ -11,7 +11,7 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 //Force App to user ios mode ever
 setupConfig({
-    mode:"ios"
+    //mode:"ios"
 });
 
 /* IOnic react start the app */
