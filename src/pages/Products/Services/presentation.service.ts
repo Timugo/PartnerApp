@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Enviroment } from "../../../enviroments/enviroments";
 /* Interfaces */
 import { UpdatePresentationReponse } from '../interfaces/presentation.interface';
-import { Presentation } from '../../../interfaces/product.interface';
+import { Presentation } from '../interfaces/product.interface';
 /* Services */
 import { LocalStorageService } from '../../../services/localStorage.service';
 

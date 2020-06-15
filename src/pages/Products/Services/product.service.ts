@@ -1,18 +1,26 @@
 /* IMport axios library to make request */
 import axios from 'axios';
 /* Enviroments  */
-import { Enviroment } from "../enviroments/enviroments";
+import { Enviroment } from "../../../enviroments/enviroments";
 /* Interfaces */
 import { Product, Presentation } from "../interfaces/product.interface";
-import { CreateProductResponse, GetProductsReponse, UpdateProductReponse, GenericResponse } from "../interfaces/responses.interface";
+import { 
+  CreateProductResponse,
+  GetProductsReponse,
+  UpdateProductReponse,
+  GenericResponse 
+} from "../../../interfaces/responses.interface";
 /* Services */
-import { LocalStorageService } from './localStorage.service';
+import { LocalStorageService } from '../../../services/localStorage.service';
 
 
 
 export class ProductService {
   
-  static async createProduct(dataEncode : FormData) {
+  static async createProduct(data : FormData) {
+    // Add phone from local storage
+    const phone : any = await LocalStorageService.getItem('phone');
+    data.append("phone", phone.value); //need to save temporal fix phone in the phone
     /* Build the base Url*/
     /* Initlize the Envoriment Class to get url */
     let enviroment = new Enviroment();
@@ -28,7 +36,7 @@ export class ProductService {
     /* Endpoint Url */
     let url : string = `${BASE_URL}/partner/products/create`
     //fetch the api
-    return  await axios.post<CreateProductResponse>(url,dataEncode,config);
+    return  await axios.post<CreateProductResponse>(url,data,config);
     
   }
   /*

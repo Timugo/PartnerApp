@@ -30,29 +30,14 @@ import { RefresherEventDetail } from '@ionic/core';
 /* Page Css Styles */
 import './Products.scss';
 /* Services */
-import { ProductService } from "../../services/product.service";
+import { ProductService } from "./Services/product.service";
 /* Interfaces */
-import { Product } from '../../interfaces/product.interface';
-
-
+import { Product } from './interfaces/product.interface';
 /* Components */
-import ProductModal from '../Products/Components/ProducModal';
-
-interface CustomProps{
-  fieldName : string
-}
-
+import ProductModal from './Components/ProducModal';
 
 /* React Functional Component */
 const Login: React.FC = () => {
-  // let productTemp : Product = {
-  //   benefits : "",
-  //   characteristics : "",
-  //   deliveryDays : 0,
-  //   description : "",
-  //   file : "",
-  //   name : "",
-  // } ;
   const [products, setProducts] = useState<Product[]>();
   const [product, setProduct] =useState<Product>();
   const [showProductModal, setShowProductModal] = useState<boolean>(false);

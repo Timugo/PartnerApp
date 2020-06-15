@@ -19,39 +19,86 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonImg,
   IonToast,
+  IonActionSheet,
+  NavContext
 } from "@ionic/react";
-import React, { useState } from "react";
+import React, { useState, useRef, useContext, useCallback} from "react";
 /* Ionic icons from ionic library  */
-import { closeOutline, image, imageOutline, checkbox, checkboxOutline } from "ionicons/icons";
+import { 
+  closeOutline,
+  imageOutline,
+  checkboxOutline,
+  cameraOutline,
+  attachOutline
+} from "ionicons/icons";
 /* Services */
-import { ProductService } from "../../services/product.service";
+import { ProductService } from "./Services/product.service";
 /* Capacitor plugins libraries */
 import {
   Plugins,
   CameraResultType,
   CameraOptions,
+  CameraSource,
+  CameraPhoto 
 } from "@capacitor/core";
-import { useHistory} from "react-router";
-import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";
 import { FileConverter } from "./Services/fileConverter.service";
 //instance of camera capacitor plugin
-const { Camera } = Plugins;
+const { Camera, Device } = Plugins;
 
 const CreateProduct: React.FC = () => {
-  const history = useHistory();
+  const {navigate} = useContext(NavContext);
   /* variables used in the page */
+  /* Product Info */
   const [description, setDescription] = useState<string>("");
   const [timeArrival, setTimeArrival] = useState<number>(0);
   const [name, setName] = useState<string>("");
   const [characteristics, setCharasteristics] = useState<string>("");
   const [benefits, setBenefits] = useState<string>("");
-  const [img, setImg] = useState<string>(" ");
   const [imgData, setImgData] = useState<any>(null);
+  /* Extra components */
   const [showToast1, setShowToast1] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
-
+  const [showActionSheet, setShowActionSheet] = useState<boolean>(false);
+  const [actionButtons, setActionButtons] = useState<any>([]);
+  const fileInput = useRef(null);
+  /*
+    This function selects a standard file
+    from device (HTML)
+  */
+  const SelectImageSource = () =>{
+    const buttons =[
+      {
+        text: 'Tomar Foto',
+        icon: cameraOutline,
+        handler: () => {
+          PickPicture(CameraSource.Camera);
+        }
+      }, 
+      {
+        text: 'Seleccionar de la Galeria',
+        icon: imageOutline,
+        handler: () => {
+          PickPicture(CameraSource.Photos);
+        }
+      }
+    ];
+    Device.getInfo()
+      .then(device=>{
+        if(device.platform === "web" || device.platform === "electron"){
+          buttons.push({
+            text: 'Selecciona un archivo',
+            icon: attachOutline,
+            handler: () => {
+               // @ts-ignore 
+               fileInput?.current?.click();
+            }   
+          });
+        }
+        setActionButtons(buttons);
+        setShowActionSheet(true);
+      });
+  }
   /*
     This function handle a submit
     of a new product
@@ -71,8 +118,7 @@ const CreateProduct: React.FC = () => {
       productFormData.append("characteristics", characteristics);
       productFormData.append("deliveryDays", timeArrival.toString());
       productFormData.append("name", name);
-      productFormData.append("file", imgData, `product_${name}`);
-      productFormData.append("phone", "123456121"); //need to save temporal fix phone in the phone
+      productFormData.append("file", imgData, imgData.name);
       /* Make the reuest to create a product */
       ProductService.createProduct(productFormData)
         .then((response) => {
@@ -84,6 +130,7 @@ const CreateProduct: React.FC = () => {
               setMessage("Genial!!, se creo el producto");
               setShowToast1(true);
               /* Send to Create presentation */
+              redirect();
               //history.push(`/products/presentation/${response.data.content.product["id"]}`);
             } else {
               setMessage("Error al crear el producto, intenta mas tarde");
@@ -97,16 +144,14 @@ const CreateProduct: React.FC = () => {
           setMessage("Error al crear el producto, intenta mas tarde");
           setShowToast1(true);
         });
-
     }
 
   };
-  
   /*
     This function Use the capacitor camera plugin
     to make a photo or select from gallery 
   */
-  const PickPicture = async () => {
+  const PickPicture = async (source : CameraSource) => {
     /* 
       Use de capacitor plugin options here
       https://capacitor.ionicframework.com/docs/apis/camera#api
@@ -114,23 +159,16 @@ const CreateProduct: React.FC = () => {
     let configCamera: CameraOptions = {
       quality: 90,
       allowEditing: false,
+      source,
       resultType: CameraResultType.Base64,
     };
-    //const image: CameraPhoto = await Camera.getPhoto(configCamera);
+    // pick photo from local storage
     Camera.getPhoto(configCamera)
       .then((image: CameraPhoto)=>{
         // image.webPath will contain a path that can be set as an image src.
         // You can access the original file using image.path, which can be
         // passed to the Filesystem API to read the raw data of the image,
         // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-
-        /* Web path works to display the image in a img src */
-        // if (image.webPath) {
-        //   setMessage(image.webPath);
-        //   //to show Img path
-        //   setImg(image.webPath);
-        //   setImgData(image.webPath);
-        // }
         if (image.base64String) {
           //let dat = await FileConverter.convertFile(image.base64String,`image/${image.format}`,512);
           FileConverter.convertFile(image.base64String,`image/${image.format}`,512)
@@ -152,10 +190,23 @@ const CreateProduct: React.FC = () => {
     
     
   };
+  /*
+    This function upload the file only
+    when the platform its web PWA
+  */
+  const UploadFile = () =>{
+    // @ts-ignore 
+    setImgData(fileInput?.current?.files[0])
+  }
+
+  const redirect = useCallback(
+    () => navigate('/tabs/products', 'root'),
+    [navigate]
+  );
 
   return (
 
-    <form>
+    // <form noValidate onSubmit={SendProduct}>
       <IonPage id="homePage">
         {/* Begin Page Header */}
         <IonHeader className="ion-no-border">
@@ -182,26 +233,26 @@ const CreateProduct: React.FC = () => {
 
             {/* Second row */}
             <IonRow>
-              {/* <IonCol offset="4" size="4">
-                <IonImg src={img}></IonImg>
-              </IonCol> */}
-
-              <IonCol size="6">
-                <IonItem>
-                  <IonLabel position="stacked">Imagen</IonLabel>
-                  <IonButton fill="outline" className={!imgData ? "" : "ion-hide"} onClick={PickPicture}>
-                    <IonIcon slot="start" icon={imageOutline} />
-                    Cargar
-                  </IonButton>
+              <IonCol>
+                {
+                  <IonItem>
+                    <IonLabel position="stacked">Imagen</IonLabel>
+                    <IonButton fill="outline" onClick={()=>SelectImageSource()} className={!imgData ? "" : "ion-hide"} >
+                      <IonIcon slot="start" icon={imageOutline} />
+                      Cargar
+                    </IonButton>
                     <IonText color="medium" className={imgData ? "" : "ion-hide"}>
-                    <div>
-                      {`Cargada  `}
-                      <IonIcon color="primary" slot="end" icon={checkboxOutline} />
-                    </div>
+                      <div>
+                        {`Cargada `}
+                        <IonIcon color="primary" slot="end" icon={checkboxOutline} />
+                      </div>
                     </IonText>
-                </IonItem>
+               </IonItem>
+                }
               </IonCol>
-              <IonCol size="6">
+            </IonRow>
+            <IonRow>
+              <IonCol>
                 <IonItem>
                   <IonLabel position="stacked">Tiempo de entrega</IonLabel>
                   <IonInput
@@ -294,7 +345,7 @@ const CreateProduct: React.FC = () => {
             <IonRow className="ion-align-items-end ion-justify-content-between">
               <IonCol size="6">
                 <IonButton
-                  href="/tabs"
+                  routerLink="/tabs"
                   className="cancelButton"
                   expand="block"
                   fill="clear">
@@ -303,17 +354,35 @@ const CreateProduct: React.FC = () => {
                 </IonButton>
               </IonCol>
               <IonCol size="6">
-                <IonButton type="submit" expand="block" onClick={SendProduct}>
+                {/* <IonButton type="submit" expand="block">
+                  Crear
+                </IonButton> */}
+                <IonButton onClick={()=>{SendProduct()}} expand="block">
                   Crear
                 </IonButton>
+                
               </IonCol>
             </IonRow>
-            
           </IonGrid>
         </IonFooter>
         {/* End of footer page */}
+
+        {/*Begin extra components*/}
+        <IonActionSheet
+          isOpen={showActionSheet}
+          onDidDismiss={() => setShowActionSheet(false)}
+          cssClass='my-custom-class'
+          buttons={actionButtons}>
+        </IonActionSheet>
+        <input
+          ref={fileInput}
+          hidden
+          type="file"
+          accept="image/*"
+          onChange={UploadFile}/>
+        {/*End extra components  */}
       </IonPage>
-    </form>
+    // </form>
   );
 };
 
