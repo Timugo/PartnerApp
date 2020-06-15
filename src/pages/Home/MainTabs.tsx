@@ -14,7 +14,7 @@ import {
 } from 'ionicons/icons';
 import { Route, Redirect } from 'react-router';
 /* Pages */
-import ProductsPage from "./Products";
+import ProductsPage from "../Products/Products";
 import OrdersPage from "../Orders/Orders";
 
 

@@ -1,11 +1,11 @@
 /* IMport axios to make request to server */
 import axios from 'axios';
 /* Interfaces */
-import { LoginResponse } from "../interfaces/responses.interface"; 
+import { LoginResponse } from "../../../interfaces/responses.interface"; 
 /* Envoriment service class */
-import { Enviroment } from "../enviroments/enviroments";
+import { Enviroment } from "../../../enviroments/enviroments";
 /* Services */
-import { LocalStorageService } from "../services/localStorage.service";
+import { LocalStorageService } from "../../../services/localStorage.service";
 
 
 export class LoginServices {

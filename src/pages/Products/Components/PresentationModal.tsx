@@ -23,7 +23,7 @@ import { } from 'ionicons/icons';
 import './ProductModal.scss'
 /* Capacitor Plugins */
 import { Plugins } from '@capacitor/core';
-import { Presentation } from '../../../interfaces/product.interface';
+import { Presentation } from '../interfaces/product.interface';
 /* Services */
 import { PresentationService } from '../Services/presentation.service';
 /* Plugins */

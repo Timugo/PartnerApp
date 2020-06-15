@@ -1,12 +1,17 @@
 /* IMport axios library to make request */
 import axios from 'axios';
 /* Enviroments  */
-import { Enviroment } from "../enviroments/enviroments";
+import { Enviroment } from "../../../enviroments/enviroments";
 /* Interfaces */
 import { Product, Presentation } from "../interfaces/product.interface";
-import { CreateProductResponse, GetProductsReponse, UpdateProductReponse, GenericResponse } from "../interfaces/responses.interface";
+import { 
+  CreateProductResponse,
+  GetProductsReponse,
+  UpdateProductReponse,
+  GenericResponse 
+} from "../../../interfaces/responses.interface";
 /* Services */
-import { LocalStorageService } from './localStorage.service';
+import { LocalStorageService } from '../../../services/localStorage.service';
 
 
 

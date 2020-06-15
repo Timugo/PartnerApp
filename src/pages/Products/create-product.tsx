@@ -19,26 +19,29 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonImg,
   IonToast,
   IonActionSheet,
   useIonViewWillEnter,
 } from "@ionic/react";
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 /* Ionic icons from ionic library  */
-import { closeOutline, image, imageOutline, checkbox, checkboxOutline, trash, share, caretForwardCircle, heart, cameraOutline, codeWorking } from "ionicons/icons";
+import { 
+  closeOutline,
+  imageOutline,
+  checkboxOutline,
+  cameraOutline
+} from "ionicons/icons";
 /* Services */
-import { ProductService } from "../../services/product.service";
+import { ProductService } from "./Services/product.service";
 /* Capacitor plugins libraries */
 import {
   Plugins,
   CameraResultType,
   CameraOptions,
-  DeviceInfo,
-  CameraSource
+  CameraSource,
+  CameraPhoto 
 } from "@capacitor/core";
 import { useHistory} from "react-router";
-import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";
 import { FileConverter } from "./Services/fileConverter.service";
 //instance of camera capacitor plugin
 const { Camera, Device } = Plugins;
@@ -53,7 +56,7 @@ const CreateProduct: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [characteristics, setCharasteristics] = useState<string>("");
   const [benefits, setBenefits] = useState<string>("");
-  const [img, setImg] = useState<string>(" ");
+  //const [img, setImg] = useState<string>(" ");
   const [imgData, setImgData] = useState<any>(null);
   
   /* Extra components */
@@ -363,11 +366,11 @@ const CreateProduct: React.FC = () => {
 
         {/*Begin extra components*/}
         <IonActionSheet
-        isOpen={showActionSheet}
-        onDidDismiss={() => setShowActionSheet(false)}
-        cssClass='my-custom-class'
-        buttons={[]}>
-      </IonActionSheet>
+          isOpen={showActionSheet}
+          onDidDismiss={() => setShowActionSheet(false)}
+          cssClass='my-custom-class'
+          buttons={[]}>
+        </IonActionSheet>
         {/*End extra components  */}
       </IonPage>
     </form>

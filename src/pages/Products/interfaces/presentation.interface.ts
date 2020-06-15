@@ -1,4 +1,4 @@
-import { Presentation } from "../../../interfaces/product.interface";
+import { Presentation } from "./product.interface";
 
 export interface UpdatePresentationReponse {
   response : number,

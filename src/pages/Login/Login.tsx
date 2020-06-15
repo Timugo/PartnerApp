@@ -19,7 +19,7 @@ import { chevronBackOutline,arrowForwardOutline} from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 //Services
-import { LoginServices } from "../../services/auth.service";
+import { LoginServices } from "./Services/auth.service";
 import { LocalStorageService } from "../../services/localStorage.service";
 
 

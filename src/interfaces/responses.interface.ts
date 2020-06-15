@@ -1,5 +1,5 @@
 /* Interfaces */
-import { Product } from "./product.interface";
+import { Product } from "../pages/Products/interfaces/product.interface";
 
 /* Interface of all server responses (improve typescript) */
 export interface GenericResponse {

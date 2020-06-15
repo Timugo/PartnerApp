@@ -26,16 +26,16 @@ import React, { useState } from "react";
 /* Ionic icons from ionic library  */
 import { closeOutline} from "ionicons/icons";
 /* Services */
-import { ProductService } from "../../services/product.service";
+import { ProductService } from "./Services/product.service";
 /* Interfaces */
 /* Capacitor plugins libraries */
 import {
   Plugins,
   CameraResultType,
   CameraOptions,
+  CameraPhoto
 } from "@capacitor/core";
 import { useHistory, RouteComponentProps } from "react-router";
-import { CameraPhoto } from "../../interfaces/cameraPhoto.interface";
 import { FileConverter } from "./Services/fileConverter.service";
 
 //instance of camera capacitor plugin
@@ -45,9 +45,7 @@ interface OwnProps {}
 interface PageProps {
   idProduct?: string;
 }
-interface PageProps extends RouteComponentProps<{
-  id: string;
-}> {}
+interface PageProps extends RouteComponentProps<{id: string;}> {}
 /* Union of all properties to inject into component */
 type ProductModalProps = OwnProps & PageProps;
 /* Match let to get info from url params and path */

@@ -27,10 +27,10 @@ import { useHistory } from 'react-router';
 /* Css component styles */
 import './ProductModal.scss'
 /* Interfaces */
-import { Product, Presentation } from '../../../interfaces/product.interface';
+import { Product, Presentation } from '../interfaces/product.interface';
 /* Capacitor Plugins */
 import { Plugins } from '@capacitor/core';
-import { ProductService } from '../../../services/product.service';
+import { ProductService } from '../Services/product.service';
 /* Components */
 import PresentationModal from "./PresentationModal";
 /* Plugins  */
