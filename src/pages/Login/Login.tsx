@@ -2,17 +2,18 @@
 import './Login.scss';
 /* React libraries */
 import { 
-    IonContent,
-    IonPage,
-    IonButton,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonIcon,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonText
+  IonContent,
+  IonPage,
+  IonButton,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonIcon,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonText,
+	IonToast
 } from '@ionic/react';
 import { chevronBackOutline,arrowForwardOutline} from 'ionicons/icons';
 import React, { useState } from 'react';
@@ -20,19 +21,16 @@ import { useHistory } from 'react-router';
 //Services
 import { LoginServices } from "../../services/auth.service";
 import { LocalStorageService } from "../../services/localStorage.service";
-/* PLugins */
-import { Plugins } from '@capacitor/core';
-/*Use Browser Plugin from capacitor plugins */
-const { Browser } = Plugins
 
 
 const Login: React.FC = () => {
-
 		// Properties to handle in the inputs
 		const [user, setUser] = useState<string>("");
 		const [password, setPassword] = useState<string>("");	
 		// history is used to navigate netwen pages
-		const history = useHistory();
+    const history = useHistory();
+    // Extra components
+    const [showToast, setShowToast] = useState(false);
 		/*
 			Login Function
 			React Functions must to have Capital leters 
@@ -53,19 +51,21 @@ const Login: React.FC = () => {
 											.then(()=>{
 												//navigate to Home page
 												history.push('/tabs/products');
-
 											})
-											.catch(err=>console.log(err))
+											.catch(err=>{
+												setShowToast(true);
+												console.log(err);
+											});
 									})
 							})
-							.catch(err => console.log(err));
+							.catch(err =>{
+                setShowToast(true);
+                console.log(err);
+              });
 				}).catch(err=>{
+          setShowToast(true);
 					console.log(err);
 				});
-		}
-		const register = async () => {
-			/* Open a link that redirect user to whatsapp api  */
-			await Browser.open({ url: 'https://wa.me/573162452663?text=Hola%2C%20me%20gustaria%20recuperar%20mi%20contrasena%20' });
 		}
 		
     return (
@@ -124,8 +124,6 @@ const Login: React.FC = () => {
       						<IonButton  size="large" className="customButton" onClick={HandleSubmit}>
       							<IonIcon id="signButton" color="white" size="medium" icon={arrowForwardOutline} />
       						</IonButton>
-      						{/*
-      						<IonIcon id="signButton" color="secondary" size="large" icon={arrowForwardCircleSharp} /> */}
       					</IonCol>
       				</IonRow>
 
@@ -133,6 +131,12 @@ const Login: React.FC = () => {
       		</div>
 
       	</IonContent>
+        {/* Extra components */}
+				<IonToast
+        isOpen={showToast}
+        onDidDismiss={() => setShowToast(false)}
+        message="Error de conexion, por favor intenta mas tarde"
+        duration={500}/>
       </IonPage>
     );
 };
