@@ -16,15 +16,13 @@ import {
   IonItem,
   IonInput,
   IonTextarea,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonImg,
   IonToast,
+  IonActionSheet,
+  NavContext,
 } from "@ionic/react";
-import React, { useState } from "react";
+import React, { useState, useRef, useContext } from "react";
 /* Ionic icons from ionic library  */
-import { closeOutline} from "ionicons/icons";
+import { closeOutline, cameraOutline, imageOutline, attachOutline, checkboxOutline} from "ionicons/icons";
 /* Services */
 import { ProductService } from "./Services/product.service";
 /* Interfaces */
@@ -33,9 +31,11 @@ import {
   Plugins,
   CameraResultType,
   CameraOptions,
-  CameraPhoto
+  CameraPhoto,
+  CameraSource,
+  Device
 } from "@capacitor/core";
-import { useHistory, RouteComponentProps } from "react-router";
+import { RouteComponentProps } from "react-router";
 import { FileConverter } from "./Services/fileConverter.service";
 
 //instance of camera capacitor plugin
@@ -51,7 +51,7 @@ type ProductModalProps = OwnProps & PageProps;
 /* Match let to get info from url params and path */
 const CreatePresentation: React.FC<PageProps> = ({ match }) => {
   /* Used to redirect pages */
-  const history = useHistory();
+  const {navigate} = useContext(NavContext);
   
   /* variables used in the page */
   const [idProduct, setIdProduct] = useState<string>(match.params.id);
@@ -68,15 +68,16 @@ const CreatePresentation: React.FC<PageProps> = ({ match }) => {
   const [reference, setReference] = useState<string>("");
   const [img, setImg] = useState<string>(" ");
   const [imgData, setImgData] = useState<any>();
-
-  /* Ui Utils */
+  /* Extra components */
   const [showToast1, setShowToast1] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
-  const [showAlert1, setShowAlert1] = useState(false);
+  const [showActionSheet, setShowActionSheet] = useState<boolean>(false);
+  const [actionButtons, setActionButtons] = useState<any>([]);
+  const fileInput = useRef(null);
 
   /*
-  This function handle a submit
-  of a new product
+    This function handle a submit
+    of a new product
   */
   const SendPresentation = async () => {
     let presentationFormData = new FormData();
@@ -86,7 +87,7 @@ const CreatePresentation: React.FC<PageProps> = ({ match }) => {
     presentationFormData.append("sizes",volumex + "x" + volumey + "x" + volumez);
     presentationFormData.append("volume", volume);
     presentationFormData.append("weigth", weight);
-    presentationFormData.append("file", imgData, `product_${reference}`);
+    presentationFormData.append("file", imgData, imgData.name);
     presentationFormData.append("price", price.toString());
     presentationFormData.append("stock", stock.toString());
 
@@ -96,8 +97,7 @@ const CreatePresentation: React.FC<PageProps> = ({ match }) => {
           if (response.data.response === 2) {
             setMessage("Genial!!, se creo la prsentación");
             setShowToast1(true);
-           
-            // history.push("/home");
+            redirect();
           } else {
             setMessage("Error al crear la presentación , intenta mas tarde");
             setShowToast1(true);
@@ -116,46 +116,94 @@ const CreatePresentation: React.FC<PageProps> = ({ match }) => {
     This function Use the capacitor camera plugin
     to make a photo or select from gallery 
   */
-  const PickPicture = async () => {
-    /* 
-      Use de capacitor plugin options here
-      https://capacitor.ionicframework.com/docs/apis/camera#api
-    */
-    let configCamera: CameraOptions = {
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-    };
-    const image: CameraPhoto = await Camera.getPhoto(configCamera);
-    // image.webPath will contain a path that can be set as an image src.
-    // You can access the original file using image.path, which can be
-    // passed to the Filesystem API to read the raw data of the image,
-    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-    if (image.webPath) {
-      setMessage(image.webPath);
-      //to show Img path
-      setImg(image.webPath);
-      setImgData(image.webPath);
-    }
-    if (image.base64String) {
-      let dat = await FileConverter.convertFile(image.base64String,`image/${image.format}`,512);
-      console.log(dat);
-      setImgData(dat);
-    }
-    console.log("informacion de la imgagen: ", image);
-    //console.log(buffer);
+ const PickPicture = async (source : CameraSource) => {
+  /* 
+    Use de capacitor plugin options here
+    https://capacitor.ionicframework.com/docs/apis/camera#api
+  */
+  let configCamera: CameraOptions = {
+    quality: 90,
+    allowEditing: false,
+    source,
+    resultType: CameraResultType.Base64,
   };
+  // pick photo from local storage
+  Camera.getPhoto(configCamera)
+    .then((image: CameraPhoto)=>{
+      // image.webPath will contain a path that can be set as an image src.
+      // You can access the original file using image.path, which can be
+      // passed to the Filesystem API to read the raw data of the image,
+      // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+      if (image.base64String) {
+        //let dat = await FileConverter.convertFile(image.base64String,`image/${image.format}`,512);
+        FileConverter.convertFile(image.base64String,`image/${image.format}`,512)
+          .then(data =>{
+            console.log(data);
+            setImgData(data);
+          })
+          .catch(err=>{
+            setMessage("Intenta con otro tipo de archivo");
+            setShowToast1(true);      
+          });
+      }
+
+    })
+    .catch(err=>{
+      setMessage("No se detecto ninguna camara");
+      setShowToast1(true);
+    });
+};
+  /*
+    This function selects a standard file
+    from device (HTML)
+  */
+ const SelectImageSource = () =>{
+  const buttons =[
+    {
+      text: 'Tomar Foto',
+      icon: cameraOutline,
+      handler: () => {
+        PickPicture(CameraSource.Camera);
+      }
+    }, 
+    {
+      text: 'Seleccionar de la Galeria',
+      icon: imageOutline,
+      handler: () => {
+        PickPicture(CameraSource.Photos);
+      }
+    }
+  ];
+  Device.getInfo()
+    .then(device=>{
+      if(device.platform === "web" || device.platform === "electron"){
+        buttons.push({
+          text: 'Selecciona un archivo',
+          icon: attachOutline,
+          handler: () => {
+             // @ts-ignore 
+             fileInput?.current?.click();
+          }   
+        });
+      }
+      setActionButtons(buttons);
+      setShowActionSheet(true);
+    });
+  }
+  /*
+    This function upload the file only
+    when the platform its web PWA
+  */
+  const UploadFile = () =>{
+    // @ts-ignore 
+    setImgData(fileInput?.current?.files[0])
+  }
+  const redirect = () => {
+    navigate(`/tabs/products`,"root");
+  }
 
   return (
     <IonPage id="homePage">
-      {/* Page Header */}
-      <IonHeader className="ion-no-border">
-        <IonToolbar>
-          <IonTitle>Nueva Presentación</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-
-      {/* Page Content */}
       <IonContent>
         {/* Auxiliar toast */}
         <IonToast
@@ -170,7 +218,7 @@ const CreatePresentation: React.FC<PageProps> = ({ match }) => {
           <IonRow>
             <IonCol offset="1">
               <div className="ion-description-start">
-                <h4>Crear Producto</h4>
+                <h4>Crear Presentacion</h4>
                 <IonText color="medium">
                   Añade la informacion de la presentación que quieres crear
                 </IonText>
@@ -179,15 +227,20 @@ const CreatePresentation: React.FC<PageProps> = ({ match }) => {
           </IonRow>
           {/* Second row */}
           <IonRow>
-            <IonCol offset="4" size="4">
-              <IonImg src={img}></IonImg>
-            </IonCol>
-            <IonCol offset="3" size="6">
-              <IonButton size="small" onClick={PickPicture}>
-                {" "}
-                Seleccionar fotografia
-              </IonButton>
-            </IonCol>
+            {
+              <IonCol>
+                <IonButton size="small" expand="block" className={!imgData ? "" : "ion-hide"} onClick={()=>SelectImageSource()}>
+                  <IonIcon slot="start" icon={imageOutline} />
+                  Imagen
+                </IonButton>
+                <IonText color="medium" className={imgData ? "" : "ion-hide"}>
+                  <div>
+                    {`Cargada `}
+                    <IonIcon color="primary" slot="end" icon={checkboxOutline} />
+                  </div>
+                </IonText>
+              </IonCol>
+            } 
           </IonRow>
           {/* Row 3  */}
           <IonRow>
@@ -235,27 +288,32 @@ const CreatePresentation: React.FC<PageProps> = ({ match }) => {
           <IonRow>
             <IonCol>
               <IonList>
-                <IonItem>
-                  <IonLabel position="stacked">Peso</IonLabel>
-                  <IonInput
-                    className="inputs"
-                    autofocus={true}
-                    value={weight}
-                    placeholder="Kg"
-                    onIonChange={(e) => setWeight(e.detail.value!)}
-                  ></IonInput>
-                </IonItem>
-                <IonItem>
-                  <IonLabel position="stacked">Volumen</IonLabel>
-                  <IonInput
-                    className="inputs"
-                    autofocus={true}
-                    value={volume}
-                    placeholder="ejemplo(300ml)"
-                    onIonChange={(e) => setVolumen(e.detail.value!)}
-                  ></IonInput>
-                </IonItem>
-
+                <IonRow>
+                  <IonCol size="6">
+                    <IonItem>
+                      <IonLabel position="stacked">Peso</IonLabel>
+                      <IonInput
+                        className="inputs"
+                        autofocus={true}
+                        value={weight}
+                        placeholder="Kg"
+                        onIonChange={(e) => setWeight(e.detail.value!)}
+                      ></IonInput>
+                    </IonItem>
+                  </IonCol>
+                  <IonCol size="6">
+                    <IonItem>
+                      <IonLabel position="stacked">Volumen</IonLabel>
+                      <IonInput
+                        className="inputs"
+                        autofocus={true}
+                        value={volume}
+                        placeholder="ejemplo(300ml)"
+                        onIonChange={(e) => setVolumen(e.detail.value!)}
+                      ></IonInput>
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
                 <IonRow>
                   <IonCol>
                     <IonItem>
@@ -347,6 +405,20 @@ const CreatePresentation: React.FC<PageProps> = ({ match }) => {
           </IonRow>
         </IonGrid>
       </IonFooter>
+      {/*Begin extra components*/}
+      <IonActionSheet
+          isOpen={showActionSheet}
+          onDidDismiss={() => setShowActionSheet(false)}
+          cssClass='my-custom-class'
+          buttons={actionButtons}>
+        </IonActionSheet>
+        <input
+          ref={fileInput}
+          hidden
+          type="file"
+          accept="image/*"
+          onChange={UploadFile}/>
+        {/*End extra components  */}
     </IonPage>
   );
 };

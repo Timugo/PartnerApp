@@ -1,5 +1,5 @@
 /* React importations */
-import React, { useState } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import {
   IonHeader,
   IonToolbar,
@@ -22,6 +22,7 @@ import {
   IonSelectOption,
   IonTextarea,
   IonModal,
+  NavContext,
 } from '@ionic/react';
 import { useHistory } from 'react-router';
 /* Css component styles */
@@ -49,6 +50,7 @@ type ProductModalProps = OwnProps & PageProps;
 
 /* React Functional Component */
 const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) => {
+  const {navigate} = useContext(NavContext);
   const history = useHistory();
 
   const [ showToast , setShowToast] = useState<boolean>(false);
@@ -130,6 +132,11 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
    
   }
 
+  const redirect = () => {
+    navigate(`/presentation/${product._id}`,"root");
+  }
+  
+
   return (
     /* Used the <> because only can return a hole component  */
     <>
@@ -187,8 +194,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ onDismissModal,product }) =
                 color="secondary"
                 fill="outline"
                 onClick={()=>{
-                  history.push(`/products/Presentation/${product._id}`);
-                  onDismissModal();
+                  redirect();
+                  //onDismissModal();
                 }} 
                 expand="block">
                 Agregar Presentacion

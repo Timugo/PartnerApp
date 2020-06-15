@@ -247,7 +247,6 @@ const CreateProduct: React.FC = () => {
                         <IonIcon color="primary" slot="end" icon={checkboxOutline} />
                       </div>
                     </IonText>
-                    <IonButton  fill="outline" hidden onClick={()=>{}} ></IonButton>
                </IonItem>
                 }
               </IonCol>

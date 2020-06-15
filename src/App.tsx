@@ -50,7 +50,7 @@ const App: React.FC = () => (
         <Route path="/login" component={Login}/>
         <Route path="/home" component={Home}/>
         <Route path="/products/create" component={NewProduct}/>
-        <Route path="/products/Presentation/:id" component={CreatePresentation} />
+        <Route path="/presentation/:id" component={CreatePresentation} />
         {/*If User is logged then, redirect to home, if not redirect to slides tutorial*/  }
         <Route exact path="/" component={HomeOrLogin}/>
       </IonRouterOutlet>
